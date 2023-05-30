@@ -1,0 +1,50 @@
+<div class="col py-0">
+    <div class="mt-1">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" routerLink="#">Consolidado</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" routerLink="#">Seccional</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" routerLink="#">Municipio</a>
+            </li>
+        </ul>
+
+        <div class="card mb-3">
+            <div class="card-body">
+                <form class="row g-3 needs-validation">
+                    <div class="col-lg-3">
+                        <div class="form-floating">
+                            <select class="form-select" id="floatingSelectGrid">
+                                <option selected>Seccional</option>
+                                <option value="1">One</option>
+                                <option value="2">Two</option>
+                                <option value="3">Three</option>
+                            </select>
+                            <label for="floatingSelectGrid">Seleccione la seccional</label>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="form-floating">
+                            <select class="form-select" id="municipio">
+                                <option selected>Municipio</option>
+                                <option value="1">One</option>
+                                <option value="2">Two</option>
+                                <option value="3">Three</option>
+                            </select>
+                            <label for="municipio">Seleccione el Municipio</label>
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <div class="mx-auto p-2">
+                            <button type="submit" class="btn btn-primary">Consultar</button>
+                        </div>
+                        
+                      </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
