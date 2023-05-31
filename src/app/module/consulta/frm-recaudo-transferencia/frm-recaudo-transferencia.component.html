@@ -1,34 +1,47 @@
 <div class="col py-0">
     <div class="mt-1">
-        <ul class="nav nav-tabs">
-            <li class="nav-item">
-                <a class="nav-link active" aria-current="page" routerLink="#">Consolidado</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" routerLink="#">Seccional</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" routerLink="#">Municipio</a>
-            </li>
-        </ul>
 
         <div class="card mb-3">
+            <div class="card-body">
+                <div class="input-group">
+                    <label class="me-1"> Seleccione el tipo de Consulta: </label>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
+                            value="1" [(ngModel)]="rTipoConsulta">
+                        <label class="form-check-label" for="inlineRadio1">Consolidado</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
+                            value="2" [(ngModel)]="rTipoConsulta">
+                        <label class="form-check-label" for="inlineRadio2">Seccional</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3"
+                            value="3" [(ngModel)]="rTipoConsulta">
+                        <label class="form-check-label" for="inlineRadio3">Municipio</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mb-3">
+            <div class="card-header">Filtros</div>
             <div class="card-body">
                 <form class="row g-3 needs-validation">
                     <div class="col-lg-3">
                         <div class="form-floating">
-                            <select class="form-select" id="floatingSelectGrid">
+                            <select class="form-select" id="floatingSelectGrid" [disabled]="rTipoConsulta == '1'">
                                 <option selected>Seccional</option>
                                 <option value="1">One</option>
                                 <option value="2">Two</option>
                                 <option value="3">Three</option>
                             </select>
-                            <label for="floatingSelectGrid">Seleccione la seccional</label>
+                            <label for="floatingSelectGrid">Seleccione la Seccional</label>
                         </div>
                     </div>
                     <div class="col-lg-3">
                         <div class="form-floating">
-                            <select class="form-select" id="municipio">
+                            <select class="form-select" id="municipio" [disabled]="rTipoConsulta == '1' || rTipoConsulta == '2' ">
                                 <option selected>Municipio</option>
                                 <option value="1">One</option>
                                 <option value="2">Two</option>
@@ -41,10 +54,20 @@
                         <div class="mx-auto p-2">
                             <button type="submit" class="btn btn-primary">Consultar</button>
                         </div>
-                        
-                      </div>
+
+                    </div>
                 </form>
             </div>
+        </div>
+        
+        <div>
+            <p class="placeholder-glow">
+                <span class="placeholder col-12"></span>
+            </p>
+
+            <p class="placeholder-wave">
+                <span class="placeholder col-12"></span>
+            </p>
         </div>
     </div>
 </div>

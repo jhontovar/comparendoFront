@@ -7,9 +7,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FrmRecaudoTransferenciaComponent implements OnInit {
 
+  public rTipoConsulta : string = '1';
   constructor() { }
 
   ngOnInit(): void {
   }
+
 
 }
