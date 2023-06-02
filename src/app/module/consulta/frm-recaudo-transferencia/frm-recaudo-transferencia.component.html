@@ -2,89 +2,130 @@
     <div class="mt-1">
         <form [formGroup]="fControl" (ngSubmit)="btnDescargar()">
 
-            <div class="card mb-3">
-                <div class="card-body">
+            <section class="container rounded shadow  p-2">
+
+                <div class="row  g-3 mb-2">
+                    <div class="col-3">
+                        <label class="me-2 fw-bold" for="startDate">Seleccione Rango de Fechas:</label>
+                    </div>
+                    <div class="col-3">
+                        <!-- <label for="startDate">Start</label> -->
+                        <input id="startDate" class="form-control" type="date" formControlName="txtfechainicial" />
+                        <span id="startDateSelected"></span>
+                    </div>
+                    <div class="col-3">
+                        <!-- <label for="endDate">End</label> -->
+                        <input id="endDate" class="form-control" type="date" formControlName="txtfechafinal" />
+                        <span id="endDateSelected"></span>
+                    </div>
+                </div>
+
+                <div class="row g-2 mb-2">
+                    <div class="col-3">
+                        <label class="me-2 fw-bold" for="inlineRadio1"> Seleccione el tipo de transferencia:
+                        </label>
+                    </div>
+                    <div class="col-6">
+                        <div class="input-group">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" name="flexCheckDefault"
+                                    id="flexCheckDefault" value="" formControlName="txttransferido">
+                                <label class="form-check-label" for="flexCheckDefault">Transferido</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" name="flexCheckChecked"
+                                    id="flexCheckChecked" value="" formControlName="txtnotransferido">
+                                <label class="form-check-label" for="flexCheckChecked">No Transferido</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row g-2 mb-2">
+                    <div class="col-3">
+                        <label class="me-2 fw-bold" for="inlineRadio1"> Seleccione el tipo de Consulta: </label>
+                    </div>
+                    <div class="col-6">
+                        <div class="input-group">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="txttipo" id="inlineRadio1" value="1"
+                                    (click)="btnChTipoConsulta($event.target)" formControlName="txttipo">
+                                <label class="form-check-label" for="inlineRadio1">Consolidado</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="txttipo" id="inlineRadio2" value="2"
+                                    (click)="btnChTipoConsulta($event.target)" formControlName="txttipo">
+                                <label class="form-check-label" for="inlineRadio2">Seccional</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="txttipo" id="inlineRadio3" value="3"
+                                    (click)="btnChTipoConsulta($event.target)" formControlName="txttipo">
+                                <label class="form-check-label" for="inlineRadio3">Municipio</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row g-3 needs-validation mb-2">
+                    <div class="col-3"></div>
+                    <div class="col-3">
+                        <div class="form-floating">
+                            <select class="form-select" id="seccional" (change)="chSeccional($event.target)"
+                                formControlName="txtseccional">
+                                <option selected value="">Seccional</option>
+                                <option *ngFor="let item of (lSeccional$ | async)?.Resultado"
+                                    [value]="item.idDepartamento">
+                                    {{item.descripcion}} - {{item.departamento?.descripcion}}
+                                </option>
+                            </select>
+                            <label for="seccional">Seleccione la Seccional</label>
+                        </div>
+                        <div class="text-danger"
+                            *ngIf="fControl.get('txtseccional')?.invalid && (fControl.get('txtseccional')?.dirty || fControl.get('txtseccional')?.touched)">
+                            Ingrese la seccional
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="form-floating">
+                            <select class="form-select" id="municipio" formControlName="txtmunicipio">
+                                <option selected value="">Municipio</option>
+                                <option *ngFor="let item of (lSecretaria$ | async)?.Resultado"
+                                    [value]="item.idSecretaria">
+                                    {{item.descripcion}}
+                                </option>
+                            </select>
+                            <label for="municipio">Seleccione el Municipio</label>
+                        </div>
+                        <div class="text-danger"
+                            *ngIf="fControl.get('txtmunicipio')?.invalid && (fControl.get('txtmunicipio')?.dirty || fControl.get('txtmunicipio')?.touched)">
+                            Ingrese la secretaria
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row g-1 mb-2">
                     <div class="col-auto">
-                    <div class="input-group">
-                        <label class="me-2 fw-bold"> Seleccione el tipo de Consulta: </label>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="txttipo" id="inlineRadio1" value="1"
-                                (click)="btnChTipoConsulta($event.target)" formControlName="txttipo">
-                            <label class="form-check-label" for="inlineRadio1">Consolidado</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="txttipo" id="inlineRadio2" value="2"
-                                (click)="btnChTipoConsulta($event.target)" formControlName="txttipo">
-                            <label class="form-check-label" for="inlineRadio2">Seccional</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="txttipo" id="inlineRadio3" value="3"
-                                (click)="btnChTipoConsulta($event.target)" formControlName="txttipo">
-                            <label class="form-check-label" for="inlineRadio3">Municipio</label>
-                        </div>
-                    </div>
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="card mb-3">
-                <div class="card-header">Filtros</div>
-                <div class="card-body">
-                    <div class="row g-3 needs-validation">
-                        <div class="col-lg-3">
-                            <div class="form-floating">
-                                <select class="form-select" id="seccional" (change)="chSeccional($event.target)"
-                                    formControlName="txtseccional">
-                                    <option selected value="">Seccional</option>
-                                    <option *ngFor="let item of (lSeccional$ | async)?.Resultado"
-                                        [value]="item.idDepartamento">
-                                        {{item.descripcion}} - {{item.departamento?.descripcion}}
-                                    </option>
-                                </select>
-                                <label for="seccional">Seleccione la Seccional</label>
-                            </div>
-                            <div class="text-danger"
-                                *ngIf="fControl.get('txtseccional')?.invalid && (fControl.get('txtseccional')?.dirty || fControl.get('txtseccional')?.touched)">
-                                Ingrese la seccional
-                            </div>
-                        </div>
-                        <div class="col-lg-3">
-                            <div class="form-floating">
-                                <select class="form-select" id="municipio" formControlName="txtmunicipio">
-                                    <option selected value="">Municipio</option>
-                                    <option *ngFor="let item of (lSecretaria$ | async)?.Resultado"
-                                        [value]="item.idSecretaria">
-                                        {{item.descripcion}}
-                                    </option>
-                                </select>
-                                <label for="municipio">Seleccione el Municipio</label>
-                            </div>
-                            <div class="text-danger"
-                                *ngIf="fControl.get('txtmunicipio')?.invalid && (fControl.get('txtmunicipio')?.dirty || fControl.get('txtmunicipio')?.touched)">
-                                Ingrese la secretaria
-                            </div>
-                        </div>
-                        <div class="col-auto">
-                            <div class="mx-auto p-2">
-                                <button type="submit" class="btn btn-primary"
-                                    [disabled]="fControl.invalid">Consultar</button>
-                            </div>
-
+                        <div class="mx-auto p-2">
+                            <button type="submit" class="btn btn-primary"
+                                [disabled]="fControl.invalid">Consultar</button>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div>
-                <p class="placeholder-glow">
-                    <span class="placeholder col-12"></span>
-                </p>
+                <div class="row g-1 mb-2">
+                    <div>
+                        <p class="placeholder-glow">
+                            <span class="placeholder col-12"></span>
+                        </p>
 
-                <p class="placeholder-wave">
-                    <span class="placeholder col-12"></span>
-                </p>
-            </div>
+                        <p class="placeholder-wave">
+                            <span class="placeholder col-12"></span>
+                        </p>
+                    </div>
+                </div>
+
+            </section>
 
         </form>
     </div>

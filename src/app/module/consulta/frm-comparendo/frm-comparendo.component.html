@@ -2,248 +2,249 @@
 
 <div class="col py-0">
   <div class="mt-1">
+    <section class="shadow rounded p-2">
 
-    <form name="Prestador" [formGroup]="fPaciente" (ngSubmit)="btnGetComparendo()">
-
-      <div class="card mb-3">
-        <div class="card-body p-2">
-          <div class="row g-3 align-items-center">
-            <div class="col-auto">
-              <label for="txtComparendo" class="fw-bold me-2">Número de Comparendo: </label>
-            </div>
-            <div class="col-auto has-validation">
-              <input type="text" class="form-control" id="txtComparendo" placeholder="0000"
-                formControlName="txtComparendo" name="txtComparendo" id="txtComparendo">
-              <div class="text-danger"
-                *ngIf="fPaciente.get('txtComparendo')?.invalid && (fPaciente.get('txtComparendo')?.dirty || fPaciente.get('txtComparendo')?.touched)">
-                Ingrese un Número Identificación valido
+      <form name="Prestador" [formGroup]="fPaciente" (ngSubmit)="btnGetComparendo()">
+      
+            <div class="row g-3 align-items-center">
+              <div class="col-auto">
+                <label for="txtComparendo" class="fw-bold me-2">Número de Comparendo: </label>
+              </div>
+              <div class="col-auto has-validation">
+                <input type="text" class="form-control" id="txtComparendo" placeholder="0000"
+                  formControlName="txtComparendo" name="txtComparendo" id="txtComparendo">
+                <div class="text-danger"
+                  *ngIf="fPaciente.get('txtComparendo')?.invalid && (fPaciente.get('txtComparendo')?.dirty || fPaciente.get('txtComparendo')?.touched)">
+                  Ingrese un Número Identificación valido
+                </div>
+              </div>
+              <div class="col-auto">
+                <div class="mx-auto p-2">
+                  <button type="submit" class="btn btn-primary" [disabled]="!fPaciente.valid">Consultar</button>
+                </div>
               </div>
             </div>
-            <div class="col-auto">
-              <div class="mx-auto p-2">
-                <button type="submit" class="btn btn-primary" [disabled]="!fPaciente.valid">Consultar</button>
-              </div>
-            </div>
-          </div>
-        </div>
+          
+      </form>
+
+      <div [hidden]="oRespone.nroComparendo">
+        <p class="placeholder-glow">
+          <span class="placeholder col-12"></span>
+        </p>
+
+        <p class="placeholder-wave">
+          <span class="placeholder col-12"></span>
+        </p>
       </div>
-    </form>
 
-    <div [hidden]="oRespone.nroComparendo">
-      <p class="placeholder-glow">
-        <span class="placeholder col-12"></span>
-      </p>
+      <div class="card  mb-3" [hidden]="!oRespone.nroComparendo">
+        <div class="card-header">Información</div>
+        <div class="card-body">
+          <div class="row row-cols-1 row-cols-md-1 g-3">
+            <div class="col">
 
-      <p class="placeholder-wave">
-        <span class="placeholder col-12"></span>
-      </p>
-    </div>
-
-    <div class="card  mb-3" [hidden]="!oRespone.nroComparendo">
-      <div class="card-header">Información</div>
-      <div class="card-body">
-        <div class="row row-cols-1 row-cols-md-1 g-3">
-          <div class="col">
-            <div class="card border-light mb-3">
-              <div class="card-header">Comparendo</div>
-              <div class="card-body">
-                <div class="row">
-                  <div class="col">
-                    <div class="form-floating mb-3">
-                      <input type="text" class="form-control ng-valid" id="fcomparendo" placeholder="Información"
-                        [value]="oRespone.nroComparendo">
-                      <label for="fcomparendo">Número Comparendo</label>
+              <div class="card border-light mb-3">
+                <div class="card-header">Comparendo</div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col">
+                      <div class="form-floating mb-3">
+                        <input type="text" class="form-control ng-valid" id="fcomparendo" placeholder="Información"
+                          [value]="oRespone.nroComparendo">
+                        <label for="fcomparendo">Número Comparendo</label>
+                      </div>
                     </div>
-                  </div>
 
-                  <div class="col">
-                    <div class="form-floating mb-3">
-                      <input type="text" class="form-control" id="fNotificación" placeholder="Información"
-                        [value]="oRespone.fechaHora">
-                      <label for="fNotificación">Fecha Comparendo</label>
+                    <div class="col">
+                      <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="fNotificación" placeholder="Información"
+                          [value]="oRespone.fechaHora">
+                        <label for="fNotificación">Fecha Comparendo</label>
+                      </div>
                     </div>
-                  </div>
 
-                  <div class="col">
-                    <div class="form-floating mb-3">
-                      <input type="text" class="form-control" id="fJurisdiccion" placeholder="Información"
-                        [value]="oRespone.jurisdiccion">
-                      <label for="fJurisdiccion">Jurisdicción</label>
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col">
-                    <div class="form-floating mb-3">
-                      <input type="text" class="form-control" id="fEstado" placeholder="Información"
-                        [value]="oRespone.estadoComp?.descripcion">
-                      <label for="fEstado">Estado</label>
-                    </div>
-                  </div>
-                  <div class="col">
-                    <div class="form-floating mb-3">
-                      <input type="text" class="form-control" id="fDocumento" placeholder="Información"
-                        [value]="oRespone.infractor?.documento">
-                      <label for="fDocumento">Número Documento</label>
-                    </div>
-                  </div>
-
-                  <div class="col">
-                    <div class="form-floating mb-3">
-                      <input type="text" class="form-control" id="fNombre" placeholder="Información"
-                        [(ngModel)]="oRespone.nombreApellido">
-                      <label for="fNombre">Nombres</label>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="row row-cols-1 row-cols-md-1 g-3">
-          <div class="col">
-            <div class="card  mb-3">
-              <div class="card-header">Resolucion</div>
-              <div class="card-body">
-
-                <div class="row bg-light">
-                  <div class="col-12 col-sm-12 col-md-8 col-lg-11">
-                    <div class="row row-cols-auto text-start">
-                      <div class="col">
-                        <div class="input-group input-group-sm">
-                          <label class="input-group-text" for="filterText">Buscar</label>
-                          <input type="text" class="form-control" title="Buscar información en tabla" id="filterText"
-                            name="filterText" (keyup)="onFilterTextBoxChanged($event.target, 'gridOptionsResolucion')">
-                        </div>
+                    <div class="col">
+                      <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="fJurisdiccion" placeholder="Información"
+                          [value]="oRespone.jurisdiccion">
+                        <label for="fJurisdiccion">Jurisdicción</label>
                       </div>
                     </div>
                   </div>
-                  <div class="col-12 col-sm-12 col-md-4 col-lg-1 text-end">
-                    <div class="row">
-                      <div class="col"><a style="cursor:pointer;" (click)="onBtExport('gridOptionsResolucion')"
-                          title="Exportar a CSV">
-                          <em class="bi bi-cloud-download"></em>
-                        </a></div>
-                      <div class="col"><a style="cursor:pointer;" (click)="autoSizeAll(false,'gridOptionsResolucion')"
-                          title="Ajustar tamaño de columnas">
-                          <em class="bi bi-justify-left"></em>
-                        </a> </div>
+                  <div class="row">
+                    <div class="col">
+                      <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="fEstado" placeholder="Información"
+                          [value]="oRespone.estadoComp?.descripcion">
+                        <label for="fEstado">Estado</label>
+                      </div>
                     </div>
-                  </div>
-                </div>
-                <ag-grid-angular style="height: 200px;" class="ag-theme-alpine" [defaultColDef]="defaultColDef"
-                  [columnDefs]="columnDefs" (gridReady)="onGridReady($event)">
-                </ag-grid-angular>
+                    <div class="col">
+                      <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="fDocumento" placeholder="Información"
+                          [value]="oRespone.infractor?.documento">
+                        <label for="fDocumento">Número Documento</label>
+                      </div>
+                    </div>
 
-                <table class="table table-striped" *ngIf="false">
-                  <thead>
-                    <tr>
-
-                      <th scope="col">Numero Resolucion</th>
-                      <th scope="col">Resolucion Anterior</th>
-                      <th scope="col">Tipo</th>
-                      <th scope="col">Codigo Infraccion</th>
-                      <th scope="col">Valor Resolucion</th>
-                      <th scope="col">Valor Cartera</th>
-                      <th scope="col">Estado</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr *ngFor="let item of oRespone.resoluciones">
-                      <td> {{item.nroResolucion}} </td>
-                      <td> {{item.nroResolucionAnt}} </td>
-                      <td> {{item.tipoRes.descripcion}} </td>
-                      <td> {{item.infraccion.codigoInfraccion}} </td>
-                      <td> {{item.nroResolucion}} </td>
-                      <td> {{item.nroResolucion}} </td>
-                      <td> {{item.nroResolucion}} </td>
-                    </tr>
-
-                  </tbody>
-                </table>
-
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="row row-cols-1 row-cols-md-1 g-3">
-          <div class="col">
-            <div class="card  mb-3">
-              <div class="card-header">Recaudo</div>
-              <div class="card-body">
-
-                <div class="row bg-light">
-                  <div class="col-12 col-sm-12 col-md-8 col-lg-11">
-                    <div class="row row-cols-auto text-start">
-                      <div class="col">
-                        <div class="input-group input-group-sm">
-                          <label class="input-group-text" for="filterText">Buscar</label>
-                          <input type="text" class="form-control" title="Buscar información en tabla" id="filterText"
-                            name="filterText" (keyup)="onFilterTextBoxChanged($event.target, 'gridOptionsRecaudo')">
-                        </div>
+                    <div class="col">
+                      <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="fNombre" placeholder="Información"
+                          [(ngModel)]="oRespone.nombreApellido">
+                        <label for="fNombre">Nombres</label>
                       </div>
                     </div>
                   </div>
-                  <div class="col-12 col-sm-12 col-md-4 col-lg-1 text-end">
-                    <div class="row">
-                      <div class="col"><a style="cursor:pointer;" (click)="onBtExport('gridOptionsRecaudo')"
-                          title="Exportar a CSV">
-                          <em class="bi bi-cloud-download"></em>
-                        </a></div>
-                      <div class="col"><a style="cursor:pointer;" (click)="autoSizeAll(false,'gridOptionsRecaudo')"
-                          title="Ajustar tamaño de columnas">
-                          <em class="bi bi-justify-left"></em>
-                        </a> </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row row-cols-1 row-cols-md-1 g-3">
+            <div class="col">
+
+              <div class="card border-light mb-3">
+                <div class="card-header">Resolucion</div>
+                <div class="card-body">
+                  <div class="row bg-light">
+                    <div class="col-12 col-sm-12 col-md-8 col-lg-11">
+                      <div class="row row-cols-auto text-start">
+                        <div class="col">
+                          <div class="input-group input-group-sm">
+                            <label class="input-group-text" for="filterText">Buscar</label>
+                            <input type="text" class="form-control" title="Buscar información en tabla" id="filterText"
+                              name="filterText"
+                              (keyup)="onFilterTextBoxChanged($event.target, 'gridOptionsResolucion')">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-4 col-lg-1 text-end">
+                      <div class="row">
+                        <div class="col"><a style="cursor:pointer;" (click)="onBtExport('gridOptionsResolucion')"
+                            title="Exportar a CSV">
+                            <em class="bi bi-cloud-download"></em>
+                          </a></div>
+                        <div class="col"><a style="cursor:pointer;" (click)="autoSizeAll(false,'gridOptionsResolucion')"
+                            title="Ajustar tamaño de columnas">
+                            <em class="bi bi-justify-left"></em>
+                          </a> </div>
+                      </div>
                     </div>
                   </div>
+                  <ag-grid-angular style="height: 200px;" class="ag-theme-alpine" [defaultColDef]="defaultColDef"
+                    [columnDefs]="columnDefs" (gridReady)="onGridReady($event)">
+                  </ag-grid-angular>
+
+                  <table class="table table-striped" *ngIf="false">
+                    <thead>
+                      <tr>
+
+                        <th scope="col">Numero Resolucion</th>
+                        <th scope="col">Resolucion Anterior</th>
+                        <th scope="col">Tipo</th>
+                        <th scope="col">Codigo Infraccion</th>
+                        <th scope="col">Valor Resolucion</th>
+                        <th scope="col">Valor Cartera</th>
+                        <th scope="col">Estado</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of oRespone.resoluciones">
+                        <td> {{item.nroResolucion}} </td>
+                        <td> {{item.nroResolucionAnt}} </td>
+                        <td> {{item.tipoRes.descripcion}} </td>
+                        <td> {{item.infraccion.codigoInfraccion}} </td>
+                        <td> {{item.nroResolucion}} </td>
+                        <td> {{item.nroResolucion}} </td>
+                        <td> {{item.nroResolucion}} </td>
+                      </tr>
+
+                    </tbody>
+                  </table>
+
                 </div>
-                <ag-grid-angular style="height: 200px;" class="ag-theme-alpine" [defaultColDef]="defaultColDef"
-                  [columnDefs]="columnDefsRecaudo" (gridReady)="onGridReadyRecaudo($event)">
-                </ag-grid-angular>
+              </div>
 
-                <table class="table table-striped" *ngIf="false">
-                  <thead>
-                    <tr>
+            </div>
+          </div>
+          <div class="row row-cols-1 row-cols-md-1 g-3">
+            <div class="col">
+              <div class="card  border-light mb-3">
+                <div class="card-header">Recaudo</div>
+                <div class="card-body">
 
-                      <th scope="col">Tipo</th>
-                      <th scope="col">Descuento</th>
-                      <th scope="col">Porcentaje</th>
-                      <th scope="col">Valor</th>
-                      <th scope="col">Transferido</th>
-                      <th scope="col">Fecha Transferencia</th>
-                      <th scope="col">Valor Transferencia</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr *ngFor="let item of oRespone.recaudos">
-                      <td>{{item.tipoRec.descripcion}} </td>
-                      <td>{{item.vrDescuento}} </td>
-                      <td>{{item.porcentajeDescuento}} </td>
-                      <td>{{item.vrPagado}} </td>
-                      <td>{{item.transferido}} </td>
-                      <td>{{item.fechaTransferencia}} </td>
-                      <td>{{item.vrTransferido}} </td>
-                    </tr>
+                  <div class="row bg-light">
+                    <div class="col-12 col-sm-12 col-md-8 col-lg-11">
+                      <div class="row row-cols-auto text-start">
+                        <div class="col">
+                          <div class="input-group input-group-sm">
+                            <label class="input-group-text" for="filterText">Buscar</label>
+                            <input type="text" class="form-control" title="Buscar información en tabla" id="filterText"
+                              name="filterText" (keyup)="onFilterTextBoxChanged($event.target, 'gridOptionsRecaudo')">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-4 col-lg-1 text-end">
+                      <div class="row">
+                        <div class="col"><a style="cursor:pointer;" (click)="onBtExport('gridOptionsRecaudo')"
+                            title="Exportar a CSV">
+                            <em class="bi bi-cloud-download"></em>
+                          </a></div>
+                        <div class="col"><a style="cursor:pointer;" (click)="autoSizeAll(false,'gridOptionsRecaudo')"
+                            title="Ajustar tamaño de columnas">
+                            <em class="bi bi-justify-left"></em>
+                          </a> </div>
+                      </div>
+                    </div>
+                  </div>
+                  <ag-grid-angular style="height: 200px;" class="ag-theme-alpine" [defaultColDef]="defaultColDef"
+                    [columnDefs]="columnDefsRecaudo" (gridReady)="onGridReadyRecaudo($event)">
+                  </ag-grid-angular>
 
-                  </tbody>
-                </table>
+                  <table class="table table-striped" *ngIf="false">
+                    <thead>
+                      <tr>
 
+                        <th scope="col">Tipo</th>
+                        <th scope="col">Descuento</th>
+                        <th scope="col">Porcentaje</th>
+                        <th scope="col">Valor</th>
+                        <th scope="col">Transferido</th>
+                        <th scope="col">Fecha Transferencia</th>
+                        <th scope="col">Valor Transferencia</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of oRespone.recaudos">
+                        <td>{{item.tipoRec.descripcion}} </td>
+                        <td>{{item.vrDescuento}} </td>
+                        <td>{{item.porcentajeDescuento}} </td>
+                        <td>{{item.vrPagado}} </td>
+                        <td>{{item.transferido}} </td>
+                        <td>{{item.fechaTransferencia}} </td>
+                        <td>{{item.vrTransferido}} </td>
+                      </tr>
+
+                    </tbody>
+                  </table>
+
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="card-footer">
-        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-          <button class="btn btn-outline-primary me-md-2" type="button" title="Descargar PDF" (click)="btnPdf()">
-            <i class="bi bi-file-earmark-pdf-fill"></i>
-          </button>
-          <button class="btn btn-outline-primary" type="button" title="Descargar EXCEL" (click)="btnExcel()">
-            <i class="bi bi-file-earmark-excel-fill"></i>
-          </button>
+        <div class="card-footer">
+          <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <button class="btn btn-outline-primary me-md-2" type="button" title="Descargar PDF" (click)="btnPdf()">
+              <i class="bi bi-file-earmark-pdf-fill"></i>
+            </button>
+            <button class="btn btn-outline-primary" type="button" title="Descargar EXCEL" (click)="btnExcel()">
+              <i class="bi bi-file-earmark-excel-fill"></i>
+            </button>
+          </div>
         </div>
       </div>
-    </div>
-
+    </section>
   </div>
 </div>

@@ -21,6 +21,10 @@ export class FrmRecaudoTransferenciaComponent implements OnInit {
       txtseccional: [{ value: '', disabled: true }, [Validators.required],],
       txtmunicipio: [{ value: '', disabled: true }, [Validators.required]],
       txttipo: ["1"],
+      txttransferido: [''],
+      txtnotransferido: [''],
+      txtfechainicial: ['', [Validators.required]],
+      txtfechafinal: ['', [Validators.required]],
       options: new FormArray([])
     });
 
