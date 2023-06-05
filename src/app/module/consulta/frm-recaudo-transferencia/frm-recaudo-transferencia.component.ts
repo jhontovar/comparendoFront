@@ -21,8 +21,7 @@ export class FrmRecaudoTransferenciaComponent implements OnInit {
       txtseccional: [{ value: '', disabled: true }, [Validators.required],],
       txtmunicipio: [{ value: '', disabled: true }, [Validators.required]],
       txttipo: ["1"],
-      txttransferido: [''],
-      txtnotransferido: [''],
+      txttransferido: ['A'],
       txtfechainicial: ['', [Validators.required]],
       txtfechafinal: ['', [Validators.required]],
       options: new FormArray([])
@@ -77,8 +76,19 @@ export class FrmRecaudoTransferenciaComponent implements OnInit {
   /**
    * Descargar
    */
-  btnDescargar() {
-
+  async btnDescargar() {
+    let model= {
+      "tipoConsulta": this.fControl.controls['txttipo'].value,
+      "fechaInicial": this.fControl.controls['txtfechainicial'].value,
+      "fechaFinal": this.fControl.controls['txtfechafinal'].value,
+      "transferido": this.fControl.controls['txttransferido'].value,
+      "seccional": this.fControl.controls['txtseccional'].value || 0,
+      "secretaria": this.fControl.controls['txtmunicipio'].value || 0
+    }
+    let reponse = await this.recaudoTransferenciaStateService.ConsltarRecaudo(model);
+    if(reponse.EsExitoso){
+      console.log(reponse.Resultado)
+    }
   }
 
 

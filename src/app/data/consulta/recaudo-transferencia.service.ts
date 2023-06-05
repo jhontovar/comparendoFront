@@ -30,4 +30,13 @@ export class RecaudoTransferenciaService extends BaseService {
   public ConsltarSecretaria(model: any) {
     return this.apiRequestService.post(this.createCompleteRoute(environment.apiDitra, URLSERVICIO.RecaudoSecretariaConsltar), model);
   }
+
+  /**
+*
+* @param model
+* @returns
+*/
+  public ConsltarRecaudo(model: any) {
+    return this.apiRequestService.post(this.createCompleteRoute(environment.apiDitra, URLSERVICIO.RecaudoConsltarRecaudo), model);
+  }
 }

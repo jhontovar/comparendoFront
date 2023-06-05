@@ -4,6 +4,7 @@ import { BaseService, Respuesta } from 'src/app/core/service/base.service';
 import { RecaudoTransferenciaService } from 'src/app/data/consulta/recaudo-transferencia.service';
 import { Seccional } from '../interface/seccional.interface';
 import { Secretaria } from '../interface/secretaria.interface';
+import { RespuestaRecaudo } from '../interface/respuesta-seccional.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -35,4 +36,15 @@ export class RecaudoTransferenciaStateService extends BaseService {
       return this.resultadosTipado<Secretaria>(response);
     })));
   }
+
+    /**
+*
+* @param model
+* @returns
+*/
+public ConsltarRecaudo(model: any):Promise<Respuesta<RespuestaRecaudo>> {
+  return firstValueFrom(this.recaudoTransferenciaService.ConsltarRecaudo(model).pipe(map(response => {
+    return this.resultadosTipado<RespuestaRecaudo>(response);
+  })));
+}
 }

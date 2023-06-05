@@ -28,14 +28,19 @@
                     <div class="col-6">
                         <div class="input-group">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" name="flexCheckDefault"
-                                    id="flexCheckDefault" value="" formControlName="txttransferido">
-                                <label class="form-check-label" for="flexCheckDefault">Transferido</label>
+                                <input class="form-check-input" type="radio" name="txttransferido" id="txttransferidoA" value="A"
+                                     formControlName="txttransferido">
+                                <label class="form-check-label" for="txttransferidoA">Ambos</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" name="flexCheckChecked"
-                                    id="flexCheckChecked" value="" formControlName="txtnotransferido">
-                                <label class="form-check-label" for="flexCheckChecked">No Transferido</label>
+                                <input class="form-check-input" type="radio" name="txttransferido" id="txttransferidoS" value="S"
+                                     formControlName="txttransferido">
+                                <label class="form-check-label" for="txttransferidoS">Transferido</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="txttransferido" id="txttransferidoN" value="N"
+                                     formControlName="txttransferido">
+                                <label class="form-check-label" for="txttransferidoN">No Transferido</label>
                             </div>
                         </div>
                     </div>
@@ -74,7 +79,7 @@
                                 formControlName="txtseccional">
                                 <option selected value="">Seccional</option>
                                 <option *ngFor="let item of (lSeccional$ | async)?.Resultado"
-                                    [value]="item.idDepartamento">
+                                    [value]="item.idSeccional">
                                     {{item.descripcion}} - {{item.departamento?.descripcion}}
                                 </option>
                             </select>
@@ -108,7 +113,7 @@
                     <div class="col-auto">
                         <div class="mx-auto p-2">
                             <button type="submit" class="btn btn-primary"
-                                [disabled]="fControl.invalid">Consultar</button>
+                                [disabled]="fControl.invalid">Descargar</button>
                         </div>
                     </div>
                 </div>
