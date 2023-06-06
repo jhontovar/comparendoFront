@@ -1,12 +1,14 @@
+<app-toast-custom [params]="objToast"></app-toast-custom>
+
 <div class="col py-0">
     <div class="mt-1">
         <form [formGroup]="fControl" (ngSubmit)="btnDescargar()">
 
-            <section class="container rounded shadow  p-2">
+            <section class="rounded shadow  p-2">
 
                 <div class="row  g-3 mb-2">
                     <div class="col-3">
-                        <label class="me-2 fw-bold" for="startDate">Seleccione Rango de Fechas:</label>
+                        <label class="me-2 fw-bold" for="startDate">Seleccione rango de fechas:</label>
                     </div>
                     <div class="col-3">
                         <!-- <label for="startDate">Start</label> -->
@@ -22,7 +24,7 @@
 
                 <div class="row g-2 mb-2">
                     <div class="col-3">
-                        <label class="me-2 fw-bold" for="inlineRadio1"> Seleccione el tipo de transferencia:
+                        <label class="me-2 fw-bold" for="inlineRadio1"> Seleccione tipo de transferencia:
                         </label>
                     </div>
                     <div class="col-6">
@@ -30,7 +32,7 @@
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="txttransferido" id="txttransferidoA" value="A"
                                      formControlName="txttransferido">
-                                <label class="form-check-label" for="txttransferidoA">Ambos</label>
+                                <label class="form-check-label" for="txttransferidoA">Agrupado</label>
                             </div>
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="txttransferido" id="txttransferidoS" value="S"
@@ -48,22 +50,22 @@
 
                 <div class="row g-2 mb-2">
                     <div class="col-3">
-                        <label class="me-2 fw-bold" for="inlineRadio1"> Seleccione el tipo de Consulta: </label>
+                        <label class="me-2 fw-bold" for="inlineRadio1">Seleccione tipo de consulta: </label>
                     </div>
                     <div class="col-6">
                         <div class="input-group">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="txttipo" id="inlineRadio1" value="1"
+                                <input class="form-check-input" type="radio" name="txttipo" id="inlineRadio1" value="N"
                                     (click)="btnChTipoConsulta($event.target)" formControlName="txttipo">
-                                <label class="form-check-label" for="inlineRadio1">Consolidado</label>
+                                <label class="form-check-label" for="inlineRadio1">Nacional</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="txttipo" id="inlineRadio2" value="2"
+                                <input class="form-check-input" type="radio" name="txttipo" id="inlineRadio2" value="S"
                                     (click)="btnChTipoConsulta($event.target)" formControlName="txttipo">
                                 <label class="form-check-label" for="inlineRadio2">Seccional</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="txttipo" id="inlineRadio3" value="3"
+                                <input class="form-check-input" type="radio" name="txttipo" id="inlineRadio3" value="M"
                                     (click)="btnChTipoConsulta($event.target)" formControlName="txttipo">
                                 <label class="form-check-label" for="inlineRadio3">Municipio</label>
                             </div>
@@ -118,7 +120,7 @@
                     </div>
                 </div>
 
-                <div class="row g-1 mb-2">
+                <div class="row g-1 mb-2" *ngIf="!descargaExitosa">
                     <div>
                         <p class="placeholder-glow">
                             <span class="placeholder col-12"></span>
@@ -126,6 +128,14 @@
 
                         <p class="placeholder-wave">
                             <span class="placeholder col-12"></span>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="row g-1 mb-2" *ngIf="descargaExitosa">
+                    <div>
+                        <p>
+                            {{CONSTANT.MENSAJES.NO_INFORMACION_DESCARGADA}}
                         </p>
                     </div>
                 </div>
