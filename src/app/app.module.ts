@@ -10,6 +10,7 @@ import { HttpAuthorizationService } from './core/interceptor/http-authorization.
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
 
+
 export const httpInterceptors = [
   { provide: HTTP_INTERCEPTORS, useClass: HttpAuthorizationService, multi: true },
   { provide: LocationStrategy, useClass: HashLocationStrategy}
@@ -19,6 +20,7 @@ export const httpInterceptors = [
   declarations: [
     AppComponent,
     LayoutComponent
+    
   ],
   imports: [
     BrowserModule,

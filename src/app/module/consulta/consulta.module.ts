@@ -7,11 +7,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AgGridModule } from 'ag-grid-angular';
 import { SharedModule } from 'src/app/core/shared/shared.module';
 import { FrmRecaudoTransferenciaComponent } from './frm-recaudo-transferencia/frm-recaudo-transferencia.component';
+import { FrmCaducidadesComponent } from './frm-caducidades/frm-caducidades.component';
 
 @NgModule({
   declarations: [
     FrmComparendoComponent,
-    FrmRecaudoTransferenciaComponent
+    FrmRecaudoTransferenciaComponent,
+    FrmCaducidadesComponent
   ],
   imports: [
     CommonModule,
