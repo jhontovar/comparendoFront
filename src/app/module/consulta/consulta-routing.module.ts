@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { FrmComparendoComponent } from './frm-comparendo/frm-comparendo.component';
 import { FrmRecaudoTransferenciaComponent } from './frm-recaudo-transferencia/frm-recaudo-transferencia.component';
+import { FrmCaducidadesComponent } from "./frm-caducidades/frm-caducidades.component";
 
 const routes: Routes = [
   {
@@ -13,6 +14,11 @@ const routes: Routes = [
     path: 'recaudo',
     component: FrmRecaudoTransferenciaComponent,
     data: { title: 'Consultar Recaudo y Transferencia' },
+  },
+  {
+    path: 'caducidades',
+    component: FrmCaducidadesComponent,
+    data: { title: 'Consultar Caducidades y Prescripciones' },
   }
 ];
 
