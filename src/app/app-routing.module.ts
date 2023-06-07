@@ -13,6 +13,11 @@ const routes: Routes = [
         data: { title: 'Consultas' },
         loadChildren: () => import('./module/consulta/consulta.module').then(m => m.ConsultaModule),
       },
+      {
+        path: 'registro',
+        data: { title: 'Registros' },
+        loadChildren: () => import('./module/registro/registro.module').then(m => m.RegistroModule),
+      },
     ]
   },
 ];
