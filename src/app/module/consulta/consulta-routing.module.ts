@@ -8,17 +8,17 @@ const routes: Routes = [
   {
     path: 'comparendo',
     component: FrmComparendoComponent,
-    data: { title: 'Consultar Comparendos' },
+    data: { title: ' Comparendos' },
   },
   {
     path: 'recaudo',
     component: FrmRecaudoTransferenciaComponent,
-    data: { title: 'Consultar Recaudo y Transferencia' },
+    data: { title: ' Recaudo y Transferencia' },
   },
   {
     path: 'caducidades',
     component: FrmCaducidadesComponent,
-    data: { title: 'Consultar Caducidades y Prescripciones' },
+    data: { title: ' Caducidades y Prescripciones' },
   }
 ];
 
