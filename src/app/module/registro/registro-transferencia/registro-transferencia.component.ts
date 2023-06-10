@@ -21,7 +21,9 @@ export class RegistroTransferenciaComponent implements OnInit {
       txtmunicipio: [{ value: '', disabled: true }, [Validators.required]],    
       txtfechainicial: ['', [Validators.required]],
       txtfechafinal: ['', [Validators.required]],
-      txttipo: ["1"]
+      txttipo: ["1"],
+      txtfechatrasferencia:['', [Validators.required]],
+      txtvalor:['', [Validators.required]],
     });
     let model = { Descripcion: "" }
     this.lSeccional$ = this.recaudoTransferenciaStateService.ConsltarSeccional(model);
