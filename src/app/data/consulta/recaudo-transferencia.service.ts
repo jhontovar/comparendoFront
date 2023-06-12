@@ -19,7 +19,7 @@ export class RecaudoTransferenciaService extends BaseService {
 * @returns
 */
   public ConsltarSeccional(model: any) {
-    return this.apiRequestService.post(this.createCompleteRoute(environment.apiDitra, URLSERVICIO.RecaudoSeccionalConsltar), model);
+    return this.apiRequestService.get(this.createCompleteRoute(environment.apiDitra, URLSERVICIO.RecaudoSeccionalConsltar), model);
   }
 
   /**
@@ -28,7 +28,7 @@ export class RecaudoTransferenciaService extends BaseService {
 * @returns
 */
   public ConsltarSecretaria(model: any) {
-    return this.apiRequestService.post(this.createCompleteRoute(environment.apiDitra, URLSERVICIO.RecaudoSecretariaConsltar), model);
+    return this.apiRequestService.get(this.createCompleteRoute(environment.apiDitra, URLSERVICIO.RecaudoSecretariaConsltar), model);
   }
 
   /**

@@ -30,14 +30,14 @@ export class FrmRecaudoTransferenciaComponent implements OnInit {
     this.fControl = this.fb.group({
       txtseccional: [{ value: '', disabled: true }, [Validators.required],],
       txtmunicipio: [{ value: '', disabled: true }, [Validators.required]],
-      txttipo: ["C"],
+      txttipo: ["N"],
       txttransferido: ['A'],
       txtfechainicial: [formatDate(firstDay, 'yyyy-MM-dd', 'en'), [Validators.required]],
       txtfechafinal: [formatDate(date, 'yyyy-MM-dd', 'en'), [Validators.required]],
       options: new FormArray([])
     });
 
-    let model = { Descripcion: "" }
+    let model = { idSeccional: "0" }
     this.lSeccional$ = this.recaudoTransferenciaStateService.ConsltarSeccional(model);
   }
 
@@ -51,8 +51,8 @@ export class FrmRecaudoTransferenciaComponent implements OnInit {
    */
   public chSeccional(event: any) {
     let model = {
-      Divipo: "",
-      IdDepartamento: event.value
+      idSecretaria: "0",
+      idDepartamento: event.value
     };
     this.lSecretaria$ = this.recaudoTransferenciaStateService.ConsltarSecretaria(model);
   }

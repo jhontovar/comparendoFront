@@ -1,7 +1,9 @@
 export const URLSERVICIO = {
     //Nombre de Servicio.svc
-    ComparendosConsultar: "api/ComparendosConsultar",
-    RecaudoSeccionalConsltar: "api/RecaudosConsultar/ConsltarSeccional",
-    RecaudoSecretariaConsltar: "api/RecaudosConsultar/ConsltarSecretaria",
-    RecaudoConsltarRecaudo: "api/RecaudosConsultar/ConsltarRecaudo"
+    ComparendosConsultar: "api/Comparendos/Consultar",
+    RecaudoSeccionalConsltar: "api/Recaudos/ConsultarSeccional",
+    RecaudoSecretariaConsltar: "api/Recaudos/ConsultarSecretaria",
+    RecaudoConsltarRecaudo: "api/Recaudos/ConsultarRecaudo",
+    CaduPrescripcionConsultar: "api/CaducidadPrescripcion/Consultar"
+
 }

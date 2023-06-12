@@ -1,33 +1,35 @@
+<app-toast-custom [params]="objToast"></app-toast-custom>
+
 <div class="col py-0">
     <div class="mt-1">
-        <form [formGroup]="fControl" >
+        <form [formGroup]="fControl" (ngSubmit)="btnGetConsulta()">
             <section class="rounded shadow  p-2">
 
                 <div class="row g-2 mb-2">
                     <div class="col-2">
-                        <label class="me-2 fw-bold" for="inlineRadio1">Consultar por:</label>
+                        <label class="me-2 fw-bold" for="consulta1">Consultar por:</label>
                     </div>
                     <div class="col-9">
                         <div class="input-group">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="txttipo" id="inlineRadio1" value="C"
-                                     formControlName="txttipo">
-                                <label class="form-check-label" for="inlineRadio1">Caducidades</label>
+                                <input class="form-check-input" type="radio" name="txtconsulta" id="consulta1" value="C"
+                                    (click)="btnConsulta($event.target)" formControlName="txtconsulta">
+                                <label class="form-check-label" for="consulta1">Caducidades</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="txttipo" id="inlineRadio2" value="P"
-                                     formControlName="txttipo">
-                                <label class="form-check-label" for="inlineRadio2">Prescripciones</label>
+                                <input class="form-check-input" type="radio" name="txtconsulta" id="consulta2" value="P"
+                                    (click)="btnConsulta($event.target)" formControlName="txtconsulta">
+                                <label class="form-check-label" for="consulta2">Prescripciones</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="txttipo" id="inlineRadio3" value="CP"
-                                     formControlName="txttipo">
-                                <label class="form-check-label" for="inlineRadio3">Proximas Caducidades</label>
+                                <input class="form-check-input" type="radio" name="txtconsulta" id="consulta3"
+                                    value="CP" (click)="btnConsulta($event.target)" formControlName="txtconsulta">
+                                <label class="form-check-label" for="consulta3">Proximas Caducidades</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="txttipo" id="inlineRadio3" value="PP"
-                                    formControlName="txttipo">
-                                <label class="form-check-label" for="inlineRadio3">Proximas  Prescripciones</label>
+                                <input class="form-check-input" type="radio" name="txtconsulta" id="consulta4"
+                                    value="PP" (click)="btnConsulta($event.target)" formControlName="txtconsulta">
+                                <label class="form-check-label" for="consulta4">Proximas Prescripciones</label>
                             </div>
                         </div>
                     </div>
@@ -51,24 +53,24 @@
 
                 <div class="row g-2 mb-2">
                     <div class="col-2">
-                        <label class="me-2 fw-bold" for="inlineRadio1">Tipo de Consulta:</label>
+                        <label class="me-2 fw-bold" for="tipoConsulta1">Tipo de consulta:</label>
                     </div>
                     <div class="col-6">
                         <div class="input-group">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="txttipo" id="inlineRadio1" value="1"
+                                <input class="form-check-input" type="radio" name="txttipo" id="tipoConsulta1" value="N"
                                     (click)="btnChTipoConsulta($event.target)" formControlName="txttipo">
-                                <label class="form-check-label" for="inlineRadio1">Nacional</label>
+                                <label class="form-check-label" for="tipoConsulta1">Nacional</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="txttipo" id="inlineRadio2" value="2"
+                                <input class="form-check-input" type="radio" name="txttipo" id="tipoConsulta2" value="S"
                                     (click)="btnChTipoConsulta($event.target)" formControlName="txttipo">
-                                <label class="form-check-label" for="inlineRadio2">Seccional</label>
+                                <label class="form-check-label" for="tipoConsulta2">Seccional</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="txttipo" id="inlineRadio3" value="3"
+                                <input class="form-check-input" type="radio" name="txttipo" id="tipoConsulta3" value="M"
                                     (click)="btnChTipoConsulta($event.target)" formControlName="txttipo">
-                                <label class="form-check-label" for="inlineRadio3">Municipio</label>
+                                <label class="form-check-label" for="tipoConsulta3">Municipio</label>
                             </div>
                         </div>
                     </div>
@@ -82,7 +84,7 @@
                                 formControlName="txtseccional">
                                 <option selected value="">Seccional</option>
                                 <option *ngFor="let item of (lSeccional$ | async)?.Resultado"
-                                    [value]="item.idSeccional">
+                                    [value]="item.idDepartamento">
                                     {{item.descripcion}} - {{item.departamento?.descripcion}}
                                 </option>
                             </select>
@@ -112,10 +114,24 @@
 
                 </div>
 
+                <div class="row g-3 needs-validation mb-2">
+                    <div class="mx-auto p-2">
+                        <button type="submit" class="btn btn-primary" [disabled]="!fControl.valid">Consultar</button>
+                    </div>
+                </div>
+
+                <div >
+                    <p class="placeholder-glow">
+                      <span class="placeholder col-12"></span>
+                    </p>
+            
+                    <p class="placeholder-wave">
+                      <span class="placeholder col-12"></span>
+                    </p>
+                  </div>
+
             </section>
 
         </form>
     </div>
 </div>
-
-

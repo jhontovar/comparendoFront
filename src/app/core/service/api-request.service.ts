@@ -17,11 +17,11 @@ export class ApiRequestService {
    */
   post<T>(url: string, obj: any): Observable<T> {
     return this.http.post<T>(url, (JSON.stringify(obj)),
-      { headers: new HttpHeaders({ 'Content-Type': 'application/json;charset=UTF-8' })}
-     );
+      { headers: new HttpHeaders({ 'Content-Type': 'application/json;charset=UTF-8' }) }
+    );
   }
 
-  
+
   /**
    * Return request GET
    * @param url
@@ -29,10 +29,12 @@ export class ApiRequestService {
    * @returns
    */
   get(url: string, obj: any): Observable<HttpResponse<any>> {
-    return this.http.get<any>(url + obj
-      , { headers: new HttpHeaders({ 'Content-Type': 'application/json;charset=UTF-8' }), observe: 'response' }
+    return this.http.get<any>(url
+      , {
+        headers: new HttpHeaders({ 'Content-Type': 'application/json;charset=UTF-8' }),
+        params: obj || undefined
+      }
     );
   }
-
 
 }
