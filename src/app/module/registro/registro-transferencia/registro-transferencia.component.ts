@@ -29,7 +29,7 @@ export class RegistroTransferenciaComponent implements OnInit {
       txttipo: ["1"],
       txtvalor:['', [Validators.required]],
     });
-    let model = { Descripcion: "" }
+    let model = { idSeccional: "0" }
     this.lSeccional$ = this.recaudoTransferenciaStateService.ConsltarSeccional(model);
     
   }
@@ -43,8 +43,8 @@ export class RegistroTransferenciaComponent implements OnInit {
    */
     public chSeccional(event: any) {
       let model = {
-        Divipo: "",
-        IdDepartamento: event.value
+        idSecretaria: "0",
+        idDepartamento: event.value
       };
       this.fControl.controls["txtmunicipio"].enable();
       this.fControl.controls["txtmunicipio"].setValue('');
