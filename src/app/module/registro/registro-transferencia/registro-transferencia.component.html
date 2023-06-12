@@ -1,0 +1,86 @@
+<app-toast-custom [params]="objToast"></app-toast-custom>
+
+<div class="card  mb-3">
+    <form [formGroup]="fControl" (ngSubmit)="btnDescargar()">
+        <div class="card-header">Realizar Transferencias</div>
+        <div class="card-body">
+            <div class="row row-cols-1 row-cols-md-1 g-3">
+                <div class="col">
+                    <div class="card border-light mb-3">
+                        <div class="card-header">Fechas</div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-floating mb-3">
+                                        <input type="date" class="form-control ng-valid" id="ffechatransf"
+                                            placeholder="Fecha de transferencia" formControlName="textfechatransf">
+                                        <label for="ffechatransf">Fecha de Transferencia</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-floating mb-3">
+                                        <input type="date" class="form-control ng-valid" id="ffechainicial" formControlName="txtfechainicial"
+                                            placeholder="Fecha Inicial">
+                                        <label for="ffechainicial">Fecha Inicial</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-floating mb-3">
+                                        <input type="date" class="form-control ng-valid" id="ffechafinal" formControlName="txtfechafinal" 
+                                            placeholder="Fecha Final">
+                                        <label for="ffechafinal">Fecha Final</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card border-light mb-3">
+                        <div class="card-header">Lugar a Transferir</div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-floating mb-3">
+                                        <select class="form-select" id="seccional" (change)="chSeccional($event.target)"
+                                            formControlName="txtseccional">
+                                            <option selected value="">Seccional</option>
+                                            <option *ngFor="let item of (lSeccional$ | async)?.Resultado"
+                                                [value]="item.idDepartamento">
+                                                {{item.descripcion}} - {{item.departamento?.descripcion}}
+                                            </option>
+                                        </select>
+                                        <label for="seccional">Seleccione la Seccional </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-floating mb-3">
+                                        <select class="form-select" id="municipio" formControlName="txtmunicipio">
+                                            <option selected value="">Municipio</option>
+                                            <option *ngFor="let item of (lSecretaria$ | async)?.Resultado"
+                                                [value]="item.idSecretaria">
+                                                {{item.descripcion}} - {{item.departamento?.descripcion}}
+                                            </option>
+                                        </select>
+                                        <label for="municipio">Seleccione El Municipio</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-floating mb-3">
+                                        <input type="email" class="form-control" id="fvalor"
+                                            placeholder="$ 00.0" formControlName="txtvalor" >
+                                        <label for="fvalor">Valor a Transferir: $ 00.0</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+
+                                <div class="col-md-8">
+                                    <button type="submit"  class="btn btn-primary">Transferir</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
