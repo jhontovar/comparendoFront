@@ -42,8 +42,8 @@ export class RecaudoTransferenciaStateService extends BaseService {
 * @param model
 * @returns
 */
-public ConsltarRecaudo(model: any):Promise<Respuesta<Array<RespuestaRecaudo>>> {
-  return firstValueFrom(this.recaudoTransferenciaService.ConsltarRecaudo(model).pipe(map(response => {
+public ConsultarRecaudo(model: any):Promise<Respuesta<Array<RespuestaRecaudo>>> {
+  return firstValueFrom(this.recaudoTransferenciaService.ConsultarRecaudo(model).pipe(map(response => {
     return this.resultadosTipado<Array<RespuestaRecaudo>>(response);
   })));
 }

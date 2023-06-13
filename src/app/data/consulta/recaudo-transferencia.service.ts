@@ -36,7 +36,7 @@ export class RecaudoTransferenciaService extends BaseService {
 * @param model
 * @returns
 */
-  public ConsltarRecaudo(model: any) {
+  public ConsultarRecaudo(model: any) {
     return this.apiRequestService.post(this.createCompleteRoute(environment.apiDitra, URLSERVICIO.RecaudoConsltarRecaudo), model);
   }
 }

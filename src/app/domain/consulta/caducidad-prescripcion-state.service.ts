@@ -13,9 +13,14 @@ export class CaducidadPrescripcionStateService extends BaseService {
     super();
   }
 
-  public ConsltarSecretaria(model: any): Promise<Respuesta<RespuestaCaduPrescripcion>> {
+  /**
+   * 
+   * @param model 
+   * @returns 
+   */
+  public Consultar(model: any): Promise<Respuesta<Array<RespuestaCaduPrescripcion>>> {
     return firstValueFrom(this.caducidadPrescripcionService.Consultar(model).pipe(map(response => {
-      return this.resultadosTipado<RespuestaCaduPrescripcion>(response);
+      return this.resultadosTipado<Array<RespuestaCaduPrescripcion>>(response);
     })));
   }
 }

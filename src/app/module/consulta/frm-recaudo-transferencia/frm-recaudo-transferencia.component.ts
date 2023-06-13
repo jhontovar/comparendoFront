@@ -6,6 +6,7 @@ import { DITRA } from 'src/app/core/constant/ditra.constants';
 import { ExcelService } from 'src/app/core/service/excel.service';
 import { RecaudoTransferenciaStateService } from 'src/app/domain/consulta/recaudo-transferencia-state.service';
 import { RespuestaRecaudo } from 'src/app/domain/interface/respuesta-seccional.interface';
+import { ColDef, GridOptions } from 'ag-grid-community';
 
 @Component({
   selector: 'app-frm-recaudo-transferencia',
@@ -20,6 +21,7 @@ export class FrmRecaudoTransferenciaComponent implements OnInit {
   public objToast: any = {};
   public descargaExitosa: boolean = false;
   public CONSTANT = DITRA;
+  public bResult: boolean = false;
 
   constructor(private fb: FormBuilder, private excelService: ExcelService,
     private recaudoTransferenciaStateService: RecaudoTransferenciaStateService) {
@@ -83,6 +85,29 @@ export class FrmRecaudoTransferenciaComponent implements OnInit {
     }
   }
 
+  async btnConsultar() {
+    this.bResult = false;
+    let model = {
+      "tipoConsulta": this.fControl.controls['txttipo'].value,
+      "fechaInicial": this.fControl.controls['txtfechainicial'].value,
+      "fechaFinal": this.fControl.controls['txtfechafinal'].value,
+      "transferido": this.fControl.controls['txttransferido'].value,
+      "seccional": this.fControl.controls['txtseccional'].value || 0,
+      "secretaria": this.fControl.controls['txtmunicipio'].value || 0
+    }
+    let reponse = await this.recaudoTransferenciaStateService.ConsultarRecaudo(model);
+    if (reponse.EsExitoso) {
+      this.bResult = true;
+      this.gridOptions.api?.setRowData(reponse.Resultado);
+      this.gridOptions.api?.sizeColumnsToFit();
+    } else {
+      this.objToast = {
+        method: "danger",
+        message: DITRA.MENSAJES.NO_INFORMACION
+      }
+    }
+  }
+
   /**
    * Descargar
    */
@@ -95,7 +120,7 @@ export class FrmRecaudoTransferenciaComponent implements OnInit {
       "seccional": this.fControl.controls['txtseccional'].value || 0,
       "secretaria": this.fControl.controls['txtmunicipio'].value || 0
     }
-    let reponse = await this.recaudoTransferenciaStateService.ConsltarRecaudo(model);
+    let reponse = await this.recaudoTransferenciaStateService.ConsultarRecaudo(model);
     if (reponse.EsExitoso) {
       this.btnExcel(reponse.Resultado);
     } else {
@@ -113,7 +138,8 @@ export class FrmRecaudoTransferenciaComponent implements OnInit {
     let lRecaudo: Array<RespuestaRecaudo> = [];
     reponse?.forEach((element: RespuestaRecaudo) => {
       lRecaudo.push({
-        idRecaudo: element.idRecaudo,
+        comparendo: element.comparendo.nroComparendo,
+        resolucion: element.resolucion.nroResolucion,
         txtDepartamento: element.secretaria?.departamento?.descripcion,
         txtMunicipio: element.secretaria?.descripcion,
         txtDocumento: element.comparendo?.documento?.documento || element.resolucion?.documento?.documento,
@@ -135,7 +161,7 @@ export class FrmRecaudoTransferenciaComponent implements OnInit {
       })
     });
 
-    let lHeader = ['Número de comparendo', 'Departamento', 'Municipio', 'Número de documento infractor',
+    let lHeader = ['Número de comparendo','Número de resolucion', 'Departamento', 'Municipio', 'Número de documento infractor',
       'Tipo de infracción', 'Cantidad de SMDLV', 'Total pagado ', 'Porcentaje SIMIT',
       'Valor SIMIT', 'Porcentaje DITRA', 'Valor DITRA', 'Porcentaje municipio', 'Valor municipio',
       'Fecha contable', 'Tipo de recaudo', 'Porcentaje de descuento', 'Valor de descuento'
@@ -147,6 +173,91 @@ export class FrmRecaudoTransferenciaComponent implements OnInit {
     this.excelService.exportExcelWhitHeaders(lRecaudo, nombreReporte, lHeader);
     this.descargaExitosa = true;
   }
+
+  //#region Grid
+
+  public columnDefs: ColDef[] = [
+    { field: 'idRecaudo', headerName: 'Id Recaudo', hide:true },
+    { field: 'comparendo.nroComparendo', headerName: 'Nro Comparendo' },
+    { field: 'resolucion.nroResolucion', headerName: 'Nro Resolucion' },
+    { field: 'secretaria.departamento.descripcion', headerName: 'Departamento' },
+    { field: 'secretaria.descripcion', headerName: 'Secretaria' },
+
+    {
+      field: 'documento', headerName: 'Nro Documento',
+      valueGetter: (row) => {
+        return row.data?.comparendo?.documento?.documento || row.data?.resolucion?.documento?.documento
+      }
+    },
+
+    {
+      field: 'codigoInfraccion', headerName: 'Código Infracción',
+      valueGetter: (row) => {
+        return row.data?.comparendo?.infraccion?.codigoInfraccion || row.data?.resolucion?.infraccion?.codigoInfraccion
+      }
+    },
+
+    {
+      field: 'comparendo.infraccion.vrDiarioDesde', headerName: 'Cantidad SMDLV',
+      valueGetter: (row) => {
+        return row.data?.comparendo?.infraccion?.vrDiarioDesde || row.data?.resolucion?.infraccion?.vrDiarioDesde
+      }
+    },
+    { field: 'vrPagado', headerName: 'Total pagado' },
+    { field: 'porcentajeSimit', headerName: 'Porcentaje SIMIT' },
+    { field: 'vrSimit', headerName: 'Valor SIMIT' },
+    { field: 'porcentajeDitra', headerName: 'Porcentaje DITRA' },
+    { field: 'vrDitra', headerName: 'Valor DITRA' },
+    { field: 'porcentajeMunicipio', headerName: 'Porcentaje municipio' },
+    { field: 'vrMunicipio', headerName: 'Valor municipio' },
+    { field: 'fechaRecaudo', headerName: 'Fecha contable' },
+    { field: 'tipoRec.descripcion', headerName: 'Tipo de recaudo' },
+    { field: 'porcentajeDescuento', headerName: 'Porcentaje de descuento' },
+    { field: 'vrDescuento', headerName: 'Valor de descuento' },
+    { field: 'nroRadicado', headerName: 'Nro Radicado' },
+    { field: 'fechaRadicado', headerName: 'Fecha radicado' },
+  ];
+
+  public gridOptions: GridOptions = {};
+  public defaultColDef = {
+    filter: 'agTextColumnFilter',
+    sortable: true,
+    resizable: true
+  }
+
+  public onGridReady(grid: any) {
+    this.gridOptions = grid;
+    this.gridOptions.api?.sizeColumnsToFit();
+  }
+
+  //searc by text in grid
+  public onFilterTextBoxChanged(event: any) {
+    if (!event.value) {
+      this.gridOptions.api?.setQuickFilter("");
+      return;
+    }
+    this.gridOptions.api?.setQuickFilter(event.value);
+  }
+
+  public onBtExport() {
+    var params = {
+      fileName: "report.csv",
+      columnSeparator: ","
+    };
+    this.gridOptions.api?.exportDataAsCsv(params);
+  }
+
+  public onautoSizeAll(skipHeader: boolean) {
+    const allColumnIds: string[] = [];
+    this.gridOptions.columnApi?.getAllColumns()!.forEach((column: any) => {
+      allColumnIds.push(column.getId());
+    });
+    this.gridOptions.columnApi?.autoSizeColumns(allColumnIds, skipHeader);
+  }
+
+  //#endregion
+
+
 
 
 
