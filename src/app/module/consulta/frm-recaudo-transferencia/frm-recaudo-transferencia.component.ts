@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { formatDate } from '@angular/common'
-import { Observable } from 'rxjs';
+import { Observable, map, take } from 'rxjs';
 import { DITRA } from 'src/app/core/constant/ditra.constants';
 import { ExcelService } from 'src/app/core/service/excel.service';
 import { RecaudoTransferenciaStateService } from 'src/app/domain/consulta/recaudo-transferencia-state.service';
@@ -46,15 +46,30 @@ export class FrmRecaudoTransferenciaComponent implements OnInit {
   ngOnInit(): void {
   }
 
-
   /**
    * Consultar secretaria
-   * @param event 
    */
-  public chSeccional(event: any) {
+  public chSeccional() {
+    let idDepartamento: string = "";
+    const idSeccional = this.fControl.controls['txtseccional'].value;
+    //,
+    this.lSeccional$.pipe(map(lseccional => lseccional.filter((seccional: any) => seccional.idSeccional === parseInt(idSeccional))), take(1))
+      .subscribe({
+        next: (val) => {
+          if (val.length == 1) {
+            idDepartamento = val[0].idDepartamento || "";
+            if (idDepartamento) {
+              this.fnGetSecretaria(idDepartamento);
+            }
+          }
+        }
+      })
+  }
+
+  private fnGetSecretaria(idDepartamento: string) {
     let model = {
       idSecretaria: "0",
-      idDepartamento: event.value
+      idDepartamento: idDepartamento
     };
     this.lSecretaria$ = this.recaudoTransferenciaStateService.ConsltarSecretaria(model);
   }
@@ -161,7 +176,7 @@ export class FrmRecaudoTransferenciaComponent implements OnInit {
       })
     });
 
-    let lHeader = ['Número de comparendo','Número de resolucion', 'Departamento', 'Municipio', 'Número de documento infractor',
+    let lHeader = ['Número de comparendo', 'Número de resolucion', 'Departamento', 'Municipio', 'Número de documento infractor',
       'Tipo de infracción', 'Cantidad de SMDLV', 'Total pagado ', 'Porcentaje SIMIT',
       'Valor SIMIT', 'Porcentaje DITRA', 'Valor DITRA', 'Porcentaje municipio', 'Valor municipio',
       'Fecha contable', 'Tipo de recaudo', 'Porcentaje de descuento', 'Valor de descuento'
@@ -177,7 +192,7 @@ export class FrmRecaudoTransferenciaComponent implements OnInit {
   //#region Grid
 
   public columnDefs: ColDef[] = [
-    { field: 'idRecaudo', headerName: 'Id Recaudo', hide:true },
+    { field: 'idRecaudo', headerName: 'Id Recaudo', hide: true },
     { field: 'comparendo.nroComparendo', headerName: 'Nro Comparendo' },
     { field: 'resolucion.nroResolucion', headerName: 'Nro Resolucion' },
     { field: 'secretaria.departamento.descripcion', headerName: 'Departamento' },

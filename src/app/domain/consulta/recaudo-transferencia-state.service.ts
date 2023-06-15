@@ -20,10 +20,21 @@ export class RecaudoTransferenciaStateService extends BaseService {
  * @param model
  * @returns
  */
-  public ConsltarSeccional(model: any):Observable<Respuesta<Array<Seccional>>> {
+  public ConsltarSeccional(model: any): Observable<Array<Seccional>> {
     return this.recaudoTransferenciaService.ConsltarSeccional(model).pipe(map(response => {
-      return this.resultadosTipado<Array<Seccional>>(response);
+      return this.resultadosTipado<Array<Seccional>>(response)?.Resultado;
     }));
+  }
+
+  /**
+  *
+  * @param model
+  * @returns
+  */
+  public ConsltarSecretaria(model: any): Promise<Array<Secretaria>> {
+    return firstValueFrom(this.recaudoTransferenciaService.ConsltarSecretaria(model).pipe(map(response => {
+      return this.resultadosTipado<Array<Secretaria>>(response).Resultado;
+    })));
   }
 
   /**
@@ -31,20 +42,9 @@ export class RecaudoTransferenciaStateService extends BaseService {
 * @param model
 * @returns
 */
-  public ConsltarSecretaria(model: any):Promise<Respuesta<Secretaria>> {
-    return firstValueFrom(this.recaudoTransferenciaService.ConsltarSecretaria(model).pipe(map(response => {
-      return this.resultadosTipado<Secretaria>(response);
+  public ConsultarRecaudo(model: any): Promise<Respuesta<Array<RespuestaRecaudo>>> {
+    return firstValueFrom(this.recaudoTransferenciaService.ConsultarRecaudo(model).pipe(map(response => {
+      return this.resultadosTipado<Array<RespuestaRecaudo>>(response);
     })));
   }
-
-    /**
-*
-* @param model
-* @returns
-*/
-public ConsultarRecaudo(model: any):Promise<Respuesta<Array<RespuestaRecaudo>>> {
-  return firstValueFrom(this.recaudoTransferenciaService.ConsultarRecaudo(model).pipe(map(response => {
-    return this.resultadosTipado<Array<RespuestaRecaudo>>(response);
-  })));
-}
 }

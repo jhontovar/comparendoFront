@@ -3,124 +3,133 @@
 <div class="col py-0">
     <div class="mt-1">
         <form [formGroup]="fControl" (ngSubmit)="btnConsultar()">
+            <section class="rounded shadow mb-3">
+                <div class="card border-light">
+                    <div class="card-body">
+                        <h6 class="card-title fw-bold text-primary text-uppercase">filtros</h6>
+                        <hr />
+                        <div class="row  g-3 mb-2">
+                            <div class="col-2">
+                                <label class="me-2 fw-bold" for="startDate">Rango de fechas:</label>
+                            </div>
+                            <div class="col-3">
+                                <!-- <label for="startDate">Start</label> -->
+                                <input id="startDate" class="form-control" type="date"
+                                    formControlName="txtfechainicial" />
+                                <span id="startDateSelected"></span>
+                            </div>
+                            <div class="col-3">
+                                <!-- <label for="endDate">End</label> -->
+                                <input id="endDate" class="form-control" type="date" formControlName="txtfechafinal" />
+                                <span id="endDateSelected"></span>
+                            </div>
+                        </div>
 
-            <section class="rounded shadow  p-2">
+                        <div class="row g-2 mb-2">
+                            <div class="col-2">
+                                <label class="me-2 fw-bold" for="txttransferidoA">Tipo de transferencia:</label>
+                            </div>
+                            <div class="col-6">
+                                <div class="input-group">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="txttransferido"
+                                            id="txttransferidoA" value="A" formControlName="txttransferido">
+                                        <label class="form-check-label" for="txttransferidoA">Agrupado</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="txttransferido"
+                                            id="txttransferidoS" value="S" formControlName="txttransferido">
+                                        <label class="form-check-label" for="txttransferidoS">Transferido</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="txttransferido"
+                                            id="txttransferidoN" value="N" formControlName="txttransferido">
+                                        <label class="form-check-label" for="txttransferidoN">No Transferido</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-                <div class="row  g-3 mb-2">
-                    <div class="col-2">
-                        <label class="me-2 fw-bold" for="startDate">Rango de fechas:</label>
-                    </div>
-                    <div class="col-3">
-                        <!-- <label for="startDate">Start</label> -->
-                        <input id="startDate" class="form-control" type="date" formControlName="txtfechainicial" />
-                        <span id="startDateSelected"></span>
-                    </div>
-                    <div class="col-3">
-                        <!-- <label for="endDate">End</label> -->
-                        <input id="endDate" class="form-control" type="date" formControlName="txtfechafinal" />
-                        <span id="endDateSelected"></span>
+                        <div class="row g-2 mb-2">
+                            <div class="col-2">
+                                <label class="me-2 fw-bold" for="inlineRadio1">Tipo de consulta:</label>
+                            </div>
+                            <div class="col-6">
+                                <div class="input-group">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="txttipo" id="inlineRadio1"
+                                            value="N" (click)="btnChTipoConsulta($event.target)"
+                                            formControlName="txttipo">
+                                        <label class="form-check-label" for="inlineRadio1">Nacional</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="txttipo" id="inlineRadio2"
+                                            value="S" (click)="btnChTipoConsulta($event.target)"
+                                            formControlName="txttipo">
+                                        <label class="form-check-label" for="inlineRadio2">Seccional</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="txttipo" id="inlineRadio3"
+                                            value="M" (click)="btnChTipoConsulta($event.target)"
+                                            formControlName="txttipo">
+                                        <label class="form-check-label" for="inlineRadio3">Municipio</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row g-3 needs-validation mb-2">
+                            <div class="col-2"></div>
+                            <div class="col-3">
+                                <div class="form-floating">
+                                    <select class="form-select" id="seccional" (change)="chSeccional()"
+                                        formControlName="txtseccional">
+                                        <option selected value="">Seccional</option>
+                                        <option *ngFor="let item of lSeccional$ | async" [value]="item.idSeccional">
+                                            {{item.descripcion}} - {{item.departamento?.descripcion}}
+                                        </option>
+                                    </select>
+                                    <label for="seccional">Seleccione la Seccional</label>
+                                </div>
+                                <div class="text-danger"
+                                    *ngIf="fControl.get('txtseccional')?.invalid && (fControl.get('txtseccional')?.dirty || fControl.get('txtseccional')?.touched)">
+                                    Ingrese la seccional
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-floating">
+                                    <select class="form-select" id="municipio" formControlName="txtmunicipio">
+                                        <option selected value="">Municipio</option>
+                                        <option *ngFor="let item of lSecretaria$ | async" [value]="item.idSecretaria">
+                                            {{item.descripcion}}
+                                        </option>
+                                    </select>
+                                    <label for="municipio">Seleccione el Municipio</label>
+                                </div>
+                                <div class="text-danger"
+                                    *ngIf="fControl.get('txtmunicipio')?.invalid && (fControl.get('txtmunicipio')?.dirty || fControl.get('txtmunicipio')?.touched)">
+                                    Ingrese la secretaria
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row g-0 mb-2">
+                            <div class="col-auto">
+                                <div class="mx-auto p-2">
+                                    <button type="submit" class="btn btn-secondary me-3" [disabled]="fControl.invalid">
+                                        <i class="bi bi-search"></i> Consultar</button>
+                                    <button type="submit" class="btn btn-success" [disabled]="fControl.invalid"
+                                        (click)="btnDescargar()" title="Descargar EXCEL" [disabled]="!bResult">
+                                        <i class="bi bi-file-earmark-excel"></i> </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+            </section>
 
-                <div class="row g-2 mb-2">
-                    <div class="col-2">
-                        <label class="me-2 fw-bold" for="txttransferidoA">Tipo de transferencia:</label>
-                    </div>
-                    <div class="col-6">
-                        <div class="input-group">
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="txttransferido" id="txttransferidoA"
-                                    value="A" formControlName="txttransferido">
-                                <label class="form-check-label" for="txttransferidoA">Agrupado</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="txttransferido" id="txttransferidoS"
-                                    value="S" formControlName="txttransferido">
-                                <label class="form-check-label" for="txttransferidoS">Transferido</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="txttransferido" id="txttransferidoN"
-                                    value="N" formControlName="txttransferido">
-                                <label class="form-check-label" for="txttransferidoN">No Transferido</label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row g-2 mb-2">
-                    <div class="col-2">
-                        <label class="me-2 fw-bold" for="inlineRadio1">Tipo de consulta:</label>
-                    </div>
-                    <div class="col-6">
-                        <div class="input-group">
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="txttipo" id="inlineRadio1" value="N"
-                                    (click)="btnChTipoConsulta($event.target)" formControlName="txttipo">
-                                <label class="form-check-label" for="inlineRadio1">Nacional</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="txttipo" id="inlineRadio2" value="S"
-                                    (click)="btnChTipoConsulta($event.target)" formControlName="txttipo">
-                                <label class="form-check-label" for="inlineRadio2">Seccional</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="txttipo" id="inlineRadio3" value="M"
-                                    (click)="btnChTipoConsulta($event.target)" formControlName="txttipo">
-                                <label class="form-check-label" for="inlineRadio3">Municipio</label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row g-3 needs-validation mb-2">
-                    <div class="col-2"></div>
-                    <div class="col-3">
-                        <div class="form-floating">
-                            <select class="form-select" id="seccional" (change)="chSeccional($event.target)"
-                                formControlName="txtseccional">
-                                <option selected value="">Seccional</option>
-                                <option *ngFor="let item of (lSeccional$ | async)?.Resultado"
-                                    [value]="item.idDepartamento">
-                                    {{item.descripcion}} - {{item.departamento?.descripcion}}
-                                </option>
-                            </select>
-                            <label for="seccional">Seleccione la Seccional</label>
-                        </div>
-                        <div class="text-danger"
-                            *ngIf="fControl.get('txtseccional')?.invalid && (fControl.get('txtseccional')?.dirty || fControl.get('txtseccional')?.touched)">
-                            Ingrese la seccional
-                        </div>
-                    </div>
-                    <div class="col-3">
-                        <div class="form-floating">
-                            <select class="form-select" id="municipio" formControlName="txtmunicipio">
-                                <option selected value="">Municipio</option>
-                                <option *ngFor="let item of (lSecretaria$ | async)?.Resultado"
-                                    [value]="item.idSecretaria">
-                                    {{item.descripcion}}
-                                </option>
-                            </select>
-                            <label for="municipio">Seleccione el Municipio</label>
-                        </div>
-                        <div class="text-danger"
-                            *ngIf="fControl.get('txtmunicipio')?.invalid && (fControl.get('txtmunicipio')?.dirty || fControl.get('txtmunicipio')?.touched)">
-                            Ingrese la secretaria
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row g-0 mb-2">
-                    <div class="col-auto">
-                        <div class="mx-auto p-2">
-                            <button type="submit" class="btn btn-primary me-3"
-                                [disabled]="fControl.invalid">Consultar</button>
-                            <button type="submit" class="btn btn-primary"
-                                [disabled]="fControl.invalid" (click)="btnDescargar()">Descargar</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div [hidden]="bResult">
+            <section class="rounded shadow p-2 mb-3" [hidden]="bResult">
+                <div>
                     <p class="placeholder-glow">
                         <span class="placeholder col-12"></span>
                     </p>
@@ -129,28 +138,38 @@
                         <span class="placeholder col-12"></span>
                     </p>
                 </div>
+            </section>
 
-                <div class="row g-0 bg-light" [hidden]="!bResult">
-                    <div class="col-md-2">
-                        <div class="input-group input-group-sm text-start">
-                            <label class="input-group-text" for="filterText">Buscar</label>
-                            <input type="text" class="form-control" title="Buscar información en tabla" id="filterText"
-                                name="filterText" (keyup)="onFilterTextBoxChanged($event.target)">
+            <section class="rounded shadow mb-3" [hidden]="!bResult">
+                <div class="card border-light">
+                    <div class="card-body">
+                        <h6 class="card-title fw-bold text-primary text-uppercase">filtros</h6>
+                        <hr />
+                        <div class="row g-0 bg-light" [hidden]="!bResult">
+                            <div class="col-md-2">
+                                <div class="input-group input-group-sm text-start">
+                                    <label class="input-group-text" for="filterText">Buscar</label>
+                                    <input type="text" class="form-control" title="Buscar información en tabla"
+                                        id="filterText" name="filterText"
+                                        (keyup)="onFilterTextBoxChanged($event.target)">
+                                </div>
+                            </div>
+                            <div class="col-md-1 offset-md-9 text-end">
+                                <a style="cursor:pointer;" class="me-3" (click)="onBtExport()" title="Exportar a CSV">
+                                    <em class="bi bi-cloud-download"></em>
+                                </a>
+                                <a style="cursor:pointer;" (click)="onautoSizeAll(false)"
+                                    title="Ajustar tamaño de columnas">
+                                    <em class="bi bi-justify-left"></em>
+                                </a>
+                            </div>
+                            <ag-grid-angular style="height: 200px;" class="ag-theme-alpine"
+                                [defaultColDef]="defaultColDef" [columnDefs]="columnDefs"
+                                (gridReady)="onGridReady($event)">
+                            </ag-grid-angular>
                         </div>
                     </div>
-                    <div class="col-md-1 offset-md-9 text-end">
-                        <a style="cursor:pointer;" class="me-3" (click)="onBtExport()" title="Exportar a CSV">
-                            <em class="bi bi-cloud-download"></em>
-                        </a>
-                        <a style="cursor:pointer;" (click)="onautoSizeAll(false)" title="Ajustar tamaño de columnas">
-                            <em class="bi bi-justify-left"></em>
-                        </a>
-                    </div>
-                    <ag-grid-angular style="height: 200px;" class="ag-theme-alpine" [defaultColDef]="defaultColDef"
-                        [columnDefs]="columnDefs" (gridReady)="onGridReady($event)">
-                    </ag-grid-angular>
                 </div>
-
             </section>
 
         </form>
