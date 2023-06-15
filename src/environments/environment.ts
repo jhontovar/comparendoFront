@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
 
+  //apiDitra: location.protocol + '//localhost:5001',
   apiDitra: location.protocol + '//localhost:8085',
   //apiDitra: location.protocol + '//localhost:8081'
 };
