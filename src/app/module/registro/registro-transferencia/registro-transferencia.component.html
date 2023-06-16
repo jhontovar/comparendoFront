@@ -26,7 +26,7 @@
                                                 </div>
                                                 <div class="text-danger"
                                                 *ngIf="fControl.get('textfechatransf')?.invalid && (fControl.get('textfechatransf')?.dirty || fControl.get('textfechatransf')?.touched)">
-                                                Ingrese la fecha de Transferencia
+                                                Ingrese la Fecha de Transferencia
                                             </div>
                                             </div>
                                             <div class="col-md-4">
@@ -37,7 +37,7 @@
                                                 </div>
                                                 <div class="text-danger"
                                                 *ngIf="fControl.get('txtfechainicial')?.invalid && (fControl.get('txtfechainicial')?.dirty || fControl.get('txtfechainicial')?.touched)">
-                                                Ingrese la fecha del Periodo Inicial
+                                                Ingrese la Fecha del Periodo Inicial
                                             </div>
                                             </div>
                                             <div class="col-md-4">
@@ -48,7 +48,7 @@
                                                 </div>
                                                 <div class="text-danger"
                                                 *ngIf="fControl.get('txtfechafinal')?.invalid && (fControl.get('txtfechafinal')?.dirty || fControl.get('txtfechafinal')?.touched)">
-                                                Ingrese la fecha del Periodo Final
+                                                Ingrese la Fecha del Periodo Final
                                             </div>
                                             </div>
                                         </div>
@@ -64,7 +64,7 @@
                                                         formControlName="txtseccional">
                                                         <option selected value="">Seccional</option>
                                                         <option *ngFor="let item of lSeccional$ | async"
-                                                            [value]="item.idDepartamento">
+                                                            [value]="item.idSeccional">
                                                             {{item.descripcion}} - {{item.departamento?.descripcion}}
                                                         </option>
                                                     </select>
