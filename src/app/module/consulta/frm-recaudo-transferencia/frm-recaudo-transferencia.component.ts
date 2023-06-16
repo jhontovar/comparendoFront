@@ -176,7 +176,7 @@ export class FrmRecaudoTransferenciaComponent implements OnInit {
       })
     });
 
-    let lHeader = ['Número de comparendo', 'Número de resolucion', 'Departamento', 'Municipio', 'Número de documento infractor',
+    let lHeader = ['Número de comparendo', 'Número de resolucion', 'Departamento', 'Secretaria', 'Número de documento infractor',
       'Tipo de infracción', 'Cantidad de SMDLV', 'Total pagado ', 'Porcentaje SIMIT',
       'Valor SIMIT', 'Porcentaje DITRA', 'Valor DITRA', 'Porcentaje municipio', 'Valor municipio',
       'Fecha contable', 'Tipo de recaudo', 'Porcentaje de descuento', 'Valor de descuento'
@@ -197,7 +197,6 @@ export class FrmRecaudoTransferenciaComponent implements OnInit {
     { field: 'resolucion.nroResolucion', headerName: 'Nro Resolucion' },
     { field: 'secretaria.departamento.descripcion', headerName: 'Departamento' },
     { field: 'secretaria.descripcion', headerName: 'Secretaria' },
-
     {
       field: 'documento', headerName: 'Nro Documento',
       valueGetter: (row) => {
@@ -213,22 +212,22 @@ export class FrmRecaudoTransferenciaComponent implements OnInit {
     },
 
     {
-      field: 'comparendo.infraccion.vrDiarioDesde', headerName: 'Cantidad SMDLV',
+      field: 'comparendo.infraccion.vrDiarioDesde', headerName: 'Cantidad SMDLV', type: 'numberColumn',
       valueGetter: (row) => {
         return row.data?.comparendo?.infraccion?.vrDiarioDesde || row.data?.resolucion?.infraccion?.vrDiarioDesde
       }
     },
-    { field: 'vrPagado', headerName: 'Total pagado' },
+    { field: 'vrPagado', headerName: 'Total pagado', type: 'numberColumn' },
     { field: 'porcentajeSimit', headerName: 'Porcentaje SIMIT' },
-    { field: 'vrSimit', headerName: 'Valor SIMIT' },
+    { field: 'vrSimit', headerName: 'Valor SIMIT', type: 'numberColumn' },
     { field: 'porcentajeDitra', headerName: 'Porcentaje DITRA' },
-    { field: 'vrDitra', headerName: 'Valor DITRA' },
+    { field: 'vrDitra', headerName: 'Valor DITRA', type: 'numberColumn' },
     { field: 'porcentajeMunicipio', headerName: 'Porcentaje municipio' },
-    { field: 'vrMunicipio', headerName: 'Valor municipio' },
+    { field: 'vrMunicipio', headerName: 'Valor municipio', type: 'numberColumn' },
     { field: 'fechaRecaudo', headerName: 'Fecha contable' },
     { field: 'tipoRec.descripcion', headerName: 'Tipo de recaudo' },
     { field: 'porcentajeDescuento', headerName: 'Porcentaje de descuento' },
-    { field: 'vrDescuento', headerName: 'Valor de descuento' },
+    { field: 'vrDescuento', headerName: 'Valor de descuento', type: 'numberColumn' },
     { field: 'nroRadicado', headerName: 'Nro Radicado' },
     { field: 'fechaRadicado', headerName: 'Fecha radicado' },
   ];

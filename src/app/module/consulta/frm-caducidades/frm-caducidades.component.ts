@@ -1,8 +1,8 @@
 import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ColDef, GridOptions } from 'ag-grid-community';
-import { Observable, filter, map, take } from 'rxjs';
+import { Observable, map, take } from 'rxjs';
 import { DITRA } from 'src/app/core/constant/ditra.constants';
 import { ExcelService } from 'src/app/core/service/excel.service';
 import { CaducidadPrescripcionStateService } from 'src/app/domain/consulta/caducidad-prescripcion-state.service';
@@ -42,9 +42,6 @@ export class FrmCaducidadesComponent implements OnInit {
     this.lSeccional$ = this.recaudoTransferenciaStateService.ConsltarSeccional(model);
   }
 
-  foSeccional(event: any) {
-
-  }
   ngOnInit(): void {
   }
 
@@ -54,7 +51,6 @@ export class FrmCaducidadesComponent implements OnInit {
   public chSeccional() {
     let idDepartamento: string = "";
     const idSeccional = this.fControl.controls['txtseccional'].value;
-    //,
     this.lSeccional$.pipe(map(lseccional => lseccional.filter((seccional: any) => seccional.idSeccional === parseInt(idSeccional))), take(1))
       .subscribe({
         next: (val) => {
@@ -68,6 +64,10 @@ export class FrmCaducidadesComponent implements OnInit {
       })
   }
 
+  /**
+   * 
+   * @param idDepartamento 
+   */
   private fnGetSecretaria(idDepartamento: string) {
     let model = {
       idSecretaria: "0",
@@ -103,6 +103,10 @@ export class FrmCaducidadesComponent implements OnInit {
     }
   }
 
+  /**
+   * 
+   * @param event 
+   */
   onConsulta(event: any) {
     switch (event.value) {
       case "C":
@@ -116,20 +120,19 @@ export class FrmCaducidadesComponent implements OnInit {
       case "CP":
         this.fControl.controls["txtfechainicial"].disable();
         this.fControl.controls["txtfechafinal"].disable();
-        // this.fControl.controls["txtfechainicial"].setValue('');
-        // this.fControl.controls["txtfechafinal"].setValue('');
         break;
       case "PP":
         this.fControl.controls["txtfechainicial"].disable();
         this.fControl.controls["txtfechafinal"].disable();
-        // this.fControl.controls["txtfechainicial"].setValue('');
-        // this.fControl.controls["txtfechafinal"].setValue('');
         break;
       default:
         break;
     }
   }
 
+  /**
+   * 
+   */
   async btnGetConsulta() {
     this.bResult = false;
     let model = {
@@ -154,7 +157,9 @@ export class FrmCaducidadesComponent implements OnInit {
 
   }
 
-
+  /**
+   * 
+   */
   async btnDescargar() {
     this.bResult = false;
     let model = {
@@ -176,32 +181,64 @@ export class FrmCaducidadesComponent implements OnInit {
     }
   }
 
+  /**
+   * 
+   * @param reponse 
+   */
   public btnExcel(reponse: Array<RespuestaCaduPrescripcion>) {
     let lRecaudo: Array<RespuestaCaduPrescripcion> = [];
     reponse?.forEach((element: RespuestaCaduPrescripcion) => {
       lRecaudo.push({
         txtMunicipio: element.secretaria?.descripcion,
+        txtNombreOperador: element.secretaria?.departamento?.operador?.descripcion,
+        txtZona: element.secretaria?.departamento?.operador?.zona,
         txtDepartamento: element.secretaria?.departamento.descripcion,
-        txtNroResolucion: element.resolucion.nroResolucion,
-        txtFechaResolucion: element.resolucion.fechaResolucion,
-        txtNombre: element.infractor.nombres,
-        txtApellido: element.infractor.apellidos,
-        txtDocumento: element.infractor.tipoDoc.descripcion,
+        txtNroResolucion: element.resolucion?.nroResolucion,
+        txtFechaResolucion: element.resolucion?.fechaResolucion,
+        txtNombre: element.infractor?.nombres,
+        txtApellido: element.infractor?.apellidos,
+        txtDocumento: element.infractor?.tipoDoc.descripcion,
         txtTipoDocumento: element.infractor?.tipoDoc.descripcion,
-        txtcodigoInfraccion: element.comparendo.infraccion.codigoInfraccion,
-        txtNroComparendo: element.comparendo.nroComparendo,
-        txtFehaComparendo: element.comparendo.fechaComp
+        txtcodigoInfraccion: element.comparendo?.infraccion.codigoInfraccion,
+        txtNroComparendo: element.comparendo?.nroComparendo,
+        txtFehaComparendo: element.comparendo?.fechaComp,
+        txtFechaCaducar: element.fechaCaducar,
+        txtTotalCarteta: element.cartera?.totalCartera
       })
     });
 
-    let lHeader = ['Secretaria', 'Departamento', 'Nro Resolución', 'Fecha Resolución', 'Nombre',
-      'Apellido', 'Documento', 'Tipo Documento', 'Codigo Infracción',
-      'Nro Comparendo', 'Fecha Comparendo'
+    let lHeader = [
+      ['Secretaria', 'Fecha Generacion', 'Total Registros', 'Total Cartera'],
+      [
+        'Secretaria',
+        'Nombre Operador',
+        'Zona',
+        'Departamento',
+        'Nro Resolución',
+        'Fecha Resolución',
+        'Nombre',
+        'Apellido',
+        'Documento',
+        'Tipo Documento',
+        'Codigo Infracción',
+        'Nro Comparendo',
+        'Fecha Comparendo',
+        'Fecha Caducar',
+        'Total Cartera',
+      ]
     ];
 
     const fechaActual = new Date().toISOString().split("T").join(" ").split("Z").join("");
+    const sum = lRecaudo.map(obj => obj.txtTotalCarteta)
+      .reduce((accumulator, current) => (accumulator || 0) + (current || 0), 0);
+
+    let lResumen: any = [
+      { secretaria: "", fechaGeneracion: fechaActual, totalRegistros: lRecaudo.length, totalCartera: sum }
+    ];
+    let lData = [lResumen, lRecaudo];
     let nombreReporte = DITRA.CONFIGURACION.NOMBRE_REPORTE.concat(fechaActual)
-    this.excelService.exportExcelWhitHeaders(lRecaudo, nombreReporte, lHeader);
+    let lShetsName: string[] = ["Resumen", "Resultado"];
+    this.excelService.exportAsExcelFilebySheets(lData, nombreReporte, lShetsName, lHeader, []);
     this.bDescargaExitosa = true;
   }
 
@@ -213,7 +250,7 @@ export class FrmCaducidadesComponent implements OnInit {
     { field: 'secretaria.departamento.operador.zona', headerName: 'Zona' },
     { field: 'secretaria.departamento.descripcion', headerName: 'Departamento' },
     { field: 'resolucion.nroResolucion', headerName: 'Nro Resolución' },
-    { field: 'resolucion.fechaResolucion', headerName: 'Fecha Resolución' },
+    { field: 'resolucion.fechaResolucion', headerName: 'Fecha Resolución', type: ['dateColumn', 'nonEditableColumn'] },
     { field: 'comparendo.nroComparendo', headerName: 'Nro Comparendo' },
     { field: 'comparendo.fechaComp', headerName: 'Fecha Comparendo' },
     { field: 'infractor.nombres', headerName: 'Nombre' },
@@ -222,7 +259,7 @@ export class FrmCaducidadesComponent implements OnInit {
     { field: 'infractor.tipoDoc.descripcion', headerName: 'Tipo Documento' },
     { field: 'comparendo.infraccion.codigoInfraccion', headerName: 'Codigo Infracción' },
     { field: 'fechaCaducar', headerName: 'Fecha a Caducar' },
-    { field: 'cartera.totalCartera', headerName: 'Total Cartera' },
+    { field: 'cartera.totalCartera', headerName: 'Total Cartera', type: 'numberColumn' },
   ];
 
   public gridOptions: GridOptions = {};

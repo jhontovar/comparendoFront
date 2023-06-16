@@ -3,10 +3,15 @@ export interface RespuestaCaduPrescripcion {
     secretaria?: any
     infractor?: any
     comparendo?: any
+    cartera?: any;
+    fechaCaducar?: string;
+    
 
     //Funciones
-    txtDepartamento?:string;
     txtMunicipio?:string;
+    txtNombreOperador?:string;
+    txtZona?:string;
+    txtDepartamento?:string;
     txtNroResolucion?:string;
     txtFechaResolucion?:string;
     txtNombre?:string;
@@ -16,4 +21,6 @@ export interface RespuestaCaduPrescripcion {
     txtcodigoInfraccion?:string;
     txtNroComparendo?:string;
     txtFehaComparendo?:string;
+    txtFechaCaducar?:string;
+    txtTotalCarteta?:number;
 }
