@@ -1,86 +1,125 @@
 <app-toast-custom [params]="objToast"></app-toast-custom>
 
-<div class="card  mb-3">
-    <form [formGroup]="fControl" (ngSubmit)="btnDescargar()">
-        <div class="card-header">Realizar Transferencias</div>
-        <div class="card-body">
-            <div class="row row-cols-1 row-cols-md-1 g-3">
-                <div class="col">
-                    <div class="card border-light mb-3">
-                        <div class="card-header">Fechas</div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-floating mb-3">
-                                        <input type="date" class="form-control ng-valid" id="ffechatransf"
-                                            placeholder="Fecha de transferencia" formControlName="textfechatransf">
-                                        <label for="ffechatransf">Fecha de Transferencia</label>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-floating mb-3">
-                                        <input type="date" class="form-control ng-valid" id="ffechainicial" formControlName="txtfechainicial"
-                                            placeholder="Fecha Inicial">
-                                        <label for="ffechainicial">Fecha Inicial</label>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-floating mb-3">
-                                        <input type="date" class="form-control ng-valid" id="ffechafinal" formControlName="txtfechafinal" 
-                                            placeholder="Fecha Final">
-                                        <label for="ffechafinal">Fecha Final</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card border-light mb-3">
-                        <div class="card-header">Lugar a Transferir</div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-floating mb-3">
-                                        <select class="form-select" id="seccional" (change)="chSeccional($event.target)"
-                                            formControlName="txtseccional">
-                                            <option selected value="">Seccional</option>
-                                            <option *ngFor="let item of (lSeccional$ | async)?.Resultado"
-                                                [value]="item.idDepartamento">
-                                                {{item.descripcion}} - {{item.departamento?.descripcion}}
-                                            </option>
-                                        </select>
-                                        <label for="seccional">Seleccione la Seccional </label>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-floating mb-3">
-                                        <select class="form-select" id="municipio" formControlName="txtmunicipio">
-                                            <option selected value="">Municipio</option>
-                                            <option *ngFor="let item of (lSecretaria$ | async)?.Resultado"
-                                                [value]="item.idSecretaria">
-                                                {{item.descripcion}} - {{item.departamento?.descripcion}}
-                                            </option>
-                                        </select>
-                                        <label for="municipio">Seleccione El Municipio</label>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-floating mb-3">
-                                        <input type="email" class="form-control" id="fvalor"
-                                            placeholder="$ 00.0" formControlName="txtvalor" >
-                                        <label for="fvalor">Valor a Transferir: $ 00.0</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
+<div class="col py-0">
+    <div class="mt-1">
 
-                                <div class="col-md-8">
-                                    <button type="submit"  class="btn btn-primary">Transferir</button>
+
+        <form [formGroup]="fControl" (ngSubmit)="btnDescargar()">
+            <section class="rounded shadow mb-3">
+                <div class="card border-light">
+                    <div class="card-body">
+                        <h6 class="card-title fw-bold text-primary text-uppercase">Realizar Transferencias</h6>
+                        <hr />
+                        <div class="row row-cols-1 row-cols-md-1 g-3">
+                            <div class="col">
+                                <div class="card border-light mb-3">
+                                    <div class="card-header text-primary text-uppercase">Fechas</div>
+                                    <div class="card-body">
+
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-floating mb-3">
+                                                    <input type="date" class="form-control ng-valid" id="ffechatransf"
+                                                        placeholder="Fecha de transferencia"
+                                                        formControlName="textfechatransf">
+                                                    <label for="ffechatransf">Fecha de Transferencia</label>
+                                                </div>
+                                                <div class="text-danger"
+                                                *ngIf="fControl.get('textfechatransf')?.invalid && (fControl.get('textfechatransf')?.dirty || fControl.get('textfechatransf')?.touched)">
+                                                Ingrese la fecha de Transferencia
+                                            </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-floating mb-3">
+                                                    <input type="date" class="form-control ng-valid" id="ffechainicial"
+                                                        formControlName="txtfechainicial" placeholder="Fecha Inicial">
+                                                    <label for="ffechainicial">Fecha Inicial</label>
+                                                </div>
+                                                <div class="text-danger"
+                                                *ngIf="fControl.get('txtfechainicial')?.invalid && (fControl.get('txtfechainicial')?.dirty || fControl.get('txtfechainicial')?.touched)">
+                                                Ingrese la fecha del Periodo Inicial
+                                            </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-floating mb-3">
+                                                    <input type="date" class="form-control ng-valid" id="ffechafinal"
+                                                        formControlName="txtfechafinal" placeholder="Fecha Final">
+                                                    <label for="ffechafinal">Fecha Final</label>
+                                                </div>
+                                                <div class="text-danger"
+                                                *ngIf="fControl.get('txtfechafinal')?.invalid && (fControl.get('txtfechafinal')?.dirty || fControl.get('txtfechafinal')?.touched)">
+                                                Ingrese la fecha del Periodo Final
+                                            </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card border-light mb-3">
+                                    <div class="card-header text-primary text-uppercase">Lugar a Transferir</div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-floating mb-3">
+                                                    <select class="form-select" id="seccional" (change)="chSeccional()"
+                                                        formControlName="txtseccional">
+                                                        <option selected value="">Seccional</option>
+                                                        <option *ngFor="let item of lSeccional$ | async"
+                                                            [value]="item.idDepartamento">
+                                                            {{item.descripcion}} - {{item.departamento?.descripcion}}
+                                                        </option>
+                                                    </select>
+                                                    <label for="seccional">Seleccione la Seccional </label>
+                                                </div>
+                                                <div class="text-danger"
+                                                    *ngIf="fControl.get('txtseccional')?.invalid && (fControl.get('txtseccional')?.dirty || fControl.get('txtseccional')?.touched)">
+                                                    Ingrese la seccional
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-floating mb-3">
+                                                    <select class="form-select" id="municipio"
+                                                        formControlName="txtmunicipio">
+                                                        <option selected value="">Municipio</option>
+                                                        <option *ngFor="let item of lSecretaria$ | async"
+                                                            [value]="item.idSecretaria">
+                                                            {{item.descripcion}} - {{item.departamento?.descripcion}}
+                                                        </option>
+                                                    </select>
+                                                    <label for="municipio">Seleccione El Municipio</label>
+                                                </div>
+                                                <div class="text-danger"
+                                                    *ngIf="fControl.get('txtmunicipio')?.invalid && (fControl.get('txtmunicipio')?.dirty || fControl.get('txtmunicipio')?.touched)">
+                                                    Ingrese la secretaria
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-floating mb-3">
+                                                    <input type="number" class="form-control" id="fvalor"
+                                                        placeholder="0.00" formControlName="txtvalor" type="text"
+                                                        (blur)="onInputBlur()" (ngModelChange)="onModelChange()">
+                                                    <label for="fvalor">Valor a Transferir</label>
+                                                </div>
+                                                <div class="text-danger"
+                                                    *ngIf="fControl.get('txtvalor')?.invalid && (fControl.get('txtvalor')?.dirty || fControl.get('txtvalor')?.touched)">
+                                                    Ingrese el valor a Transferir
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+
+                                            <div class="col-md-8">
+                                                <button type="submit" class="btn btn-secondary me-md-2"
+                                                    [disabled]="fControl.invalid"><i class="bi bi-arrow-repeat"></i>
+                                                    Transferir</button>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </form>
+            </section>
+        </form>
+    </div>
 </div>

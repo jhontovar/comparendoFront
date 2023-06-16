@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder,  FormGroup,  Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { Observable, map, take } from 'rxjs';
 import { RecaudoTransferenciaStateService } from 'src/app/domain/consulta/recaudo-transferencia-state.service';
 import { TransferenciasService } from '../../../domain/registro/transferencias.service-state';
 
@@ -26,10 +26,9 @@ export class RegistroTransferenciaComponent implements OnInit {
       textfechatransf: ['', [Validators.required]],
       txtfechainicial: ['', [Validators.required]],
       txtfechafinal: ['', [Validators.required]],
-      txttipo: ["1"],
-      txtvalor:['', [Validators.required]],
+      txtvalor:[{ value: '0', disabled: false }, [Validators.required,Validators.min(1)]],
     });
-    let model = { idSeccional: "0" }
+    let model = { IdSeccional: "0" }
     this.lSeccional$ = this.recaudoTransferenciaStateService.ConsltarSeccional(model);
     
   }
@@ -39,44 +38,29 @@ export class RegistroTransferenciaComponent implements OnInit {
 
     /**
    * Consultar secretaria
-   * @param event 
+
    */
-    public chSeccional(event: any) {
-      let model = {
-        idSecretaria: "0",
-        idDepartamento: event.value
-      };
+    public chSeccional() {
+
       this.fControl.controls["txtmunicipio"].enable();
       this.fControl.controls["txtmunicipio"].setValue('');
-      this.lSecretaria$ = this.recaudoTransferenciaStateService.ConsltarSecretaria(model);
+      // this.lSecretaria$ = this.recaudoTransferenciaStateService.ConsltarSecretaria(model);
+
       
-    }
-  
-    /**
-   * 
-   * @param event 
-   */
-    btnChTipoConsulta(event: any) {
-      switch (event.value) {
-        case "1":
-          this.fControl.controls["txtseccional"].disable();
-          this.fControl.controls["txtmunicipio"].disable();
-          this.fControl.controls["txtseccional"].setValue('');
-          this.fControl.controls["txtmunicipio"].setValue('');
-          break;
-        case "2":
-          this.fControl.controls["txtseccional"].enable();
-          this.fControl.controls["txtmunicipio"].disable();
-          this.fControl.controls["txtmunicipio"].setValue('');
-          break;
-        case "3":
-          this.fControl.controls["txtseccional"].enable();
-          this.fControl.controls["txtmunicipio"].enable();
-          break;
-        default:
-          break;
+      const idpto = this.fControl.controls['txtseccional'].value||"";
+      //,
+      if (idpto) {
+        this.fnGetSecretaria(idpto);
       }
     }
+    private fnGetSecretaria(idDepartamento: string) {
+      let model = {
+        idSecretaria: "0",
+        idDepartamento: idDepartamento
+      };
+      this.lSecretaria$ = this.recaudoTransferenciaStateService.ConsltarSecretaria(model);
+    }
+
 
    /**
    * Descargar
@@ -84,23 +68,52 @@ export class RegistroTransferenciaComponent implements OnInit {
    async btnDescargar() {
     let model = {
       
-        idTransferencia: 2,
+        idTransferencia: 0,
         fechaTransferencia: this.fControl.controls['textfechatransf'].value,
         idSecretaria: this.fControl.controls['txtmunicipio'].value || 0,
-        vrTransferido:  this.fControl.controls['txtvalor'].value || 0,
+        vrTransferido:  this.removeDots(this.fControl.controls['txtvalor'].value) || 0,
         fechaPeriodoInicio: this.fControl.controls['txtfechainicial'].value,
         fechaPeriodoFin: this.fControl.controls['txtfechafinal'].value,
 
     }
     console.log(model);
      let reponse = await this.transferenciasService.GuardarTransferencias(model);
-    if (reponse) {
-      console.log(reponse)
+    if (reponse.EsExitoso) {
+      this.objToast = {
+        method: "success",
+        message:reponse.Mensaje
+      }
+      this.fControl.reset();
     } else {
       this.objToast = {
         method: "danger",
-        message:''
+        message:reponse.Mensaje
       }
     }
   }   
+
+  formatNumberWithCurrency(value: number): string {
+    const formattedValue = value.toLocaleString('es');
+    return formattedValue;
+  }
+
+  onInputChange(): void {
+    // Formatea el valor mientras el usuario escribe
+    
+  }
+  onModelChange(): void {
+    // Realiza cualquier acción adicional al cambiar el valor (opcional)
+  }
+  onInputBlur(): void {
+      // Formatea el valor cuando el usuario se sale del campo de entrada
+      
+  const numericValue = parseFloat(this.removeDots(this.fControl.controls['txtvalor'].value))|0;
+
+  this.fControl.controls['txtvalor'].setValue(this.formatNumberWithCurrency(numericValue));
+    // Formatea el valor cuando el usuario se sale del campo de entrada
+
+  }
+  removeDots(str: string):string {
+    return str.replace(/\./g, '');
+  }
 }
