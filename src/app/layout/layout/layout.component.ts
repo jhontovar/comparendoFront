@@ -8,34 +8,16 @@ import { ActivatedRoute, ActivationStart, Router } from '@angular/router';
 })
 export class LayoutComponent implements OnInit {
 
-  public txtform?: string = "";
-  public txtmodule: string = "";
-
-  constructor(private route: ActivatedRoute, private router: Router) {    
-    try {
-      this.txtmodule = this.route.snapshot?.data['title'];
-      this.txtform= this.route.firstChild?.firstChild?.snapshot.data['title']
-    } catch (error) {
-      //Intentional
-    }
-   
+  constructor(private router: Router) {
   }
 
   ngOnInit(): void {
     try {
       this.router.events.subscribe((val) => {
         if ((val instanceof ActivationStart)) {
-          if (val?.snapshot?.data['title']) {
-            if (val?.snapshot.component == null) {
-              this.txtmodule = val.snapshot.data['title'];
-            } else {
-              this.txtform = val.snapshot.data['title'];
-            }
-          }
         }
       });
     } catch (error) {
-      console.log(error);
     }
   }
 

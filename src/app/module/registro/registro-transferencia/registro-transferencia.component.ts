@@ -20,7 +20,7 @@ export class RegistroTransferenciaComponent implements OnInit {
   constructor(private fb: FormBuilder, private recaudoTransferenciaStateService: RecaudoTransferenciaStateService,
     private transferenciasService: TransferenciasService) {
     this.fControl = this.fb.group({
-      txtseccional: [{ value: '', disabled: false }, [Validators.required],],
+      txtdepartamento: [{ value: '', disabled: false }, [Validators.required],],
       txtmunicipio: [{ value: '', disabled: true }, [Validators.required]],
       textfechatransf: ['', [Validators.required]],
       txtfechainicial: ['', [Validators.required]],
@@ -29,7 +29,6 @@ export class RegistroTransferenciaComponent implements OnInit {
     });
     let model = { IdSeccional: "0" }
     this.lSeccional$ = this.recaudoTransferenciaStateService.ConsltarSeccional(model);
-
   }
 
   ngOnInit(): void {
@@ -40,25 +39,12 @@ export class RegistroTransferenciaComponent implements OnInit {
 
  */
   public chSeccional() {
-
-    let idDepartamento: string = "";
-    const idSeccional = this.fControl.controls['txtseccional'].value || "";
-    
+    const idDepartamento = this.fControl.controls['txtdepartamento'].value || "";
     this.fControl.controls["txtmunicipio"].enable();
     this.fControl.controls["txtmunicipio"].setValue('');
-   
-    this.lSeccional$.pipe(map(lseccionals => lseccionals.filter((seccional: any) => seccional.idSeccional === parseInt(idSeccional))), take(1))
-    .subscribe({
-      next: (val) => {
-        if (val.length == 1) {
-          idDepartamento = val[0].idDepartamento || "";
-          if (idDepartamento) {
-            this.fnGetSecretaria(idDepartamento);
-          }
-        }
-      }
-    })
+    this.fnGetSecretaria(idDepartamento);
   }
+
   private fnGetSecretaria(idDepartamento: string) {
     let model = {
       idSecretaria: "0",

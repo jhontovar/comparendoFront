@@ -1,9 +1,17 @@
 <app-toast-custom [params]="objToast"></app-toast-custom>
 
+<div class="row flex-nowrap bg-light border-none p-0 my-1 p-breadcrumb">
+    <div class="col-auto">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a routerLink="#" class="text-muted">Registro</a></li>
+            <li class="breadcrumb-item active text-dark fw-bold fs-6" aria-current="page">Transferencia
+            </li>
+        </ol>
+    </div>
+</div>
+
 <div class="col py-0">
     <div class="mt-1">
-
-
         <form [formGroup]="fControl" (ngSubmit)="btnDescargar()">
             <section class="rounded shadow mb-3">
                 <div class="card border-light">
@@ -25,9 +33,9 @@
                                                     <label for="ffechatransf">Fecha de Transferencia</label>
                                                 </div>
                                                 <div class="text-danger"
-                                                *ngIf="fControl.get('textfechatransf')?.invalid && (fControl.get('textfechatransf')?.dirty || fControl.get('textfechatransf')?.touched)">
-                                                Ingrese la Fecha de Transferencia
-                                            </div>
+                                                    *ngIf="fControl.get('textfechatransf')?.invalid && (fControl.get('textfechatransf')?.dirty || fControl.get('textfechatransf')?.touched)">
+                                                    Ingrese la Fecha de Transferencia
+                                                </div>
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-floating mb-3">
@@ -36,9 +44,9 @@
                                                     <label for="ffechainicial">Fecha Inicial</label>
                                                 </div>
                                                 <div class="text-danger"
-                                                *ngIf="fControl.get('txtfechainicial')?.invalid && (fControl.get('txtfechainicial')?.dirty || fControl.get('txtfechainicial')?.touched)">
-                                                Ingrese la Fecha del Periodo Inicial
-                                            </div>
+                                                    *ngIf="fControl.get('txtfechainicial')?.invalid && (fControl.get('txtfechainicial')?.dirty || fControl.get('txtfechainicial')?.touched)">
+                                                    Ingrese la Fecha del Periodo Inicial
+                                                </div>
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-floating mb-3">
@@ -47,9 +55,9 @@
                                                     <label for="ffechafinal">Fecha Final</label>
                                                 </div>
                                                 <div class="text-danger"
-                                                *ngIf="fControl.get('txtfechafinal')?.invalid && (fControl.get('txtfechafinal')?.dirty || fControl.get('txtfechafinal')?.touched)">
-                                                Ingrese la Fecha del Periodo Final
-                                            </div>
+                                                    *ngIf="fControl.get('txtfechafinal')?.invalid && (fControl.get('txtfechafinal')?.dirty || fControl.get('txtfechafinal')?.touched)">
+                                                    Ingrese la Fecha del Periodo Final
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -61,17 +69,17 @@
                                             <div class="col-md-4">
                                                 <div class="form-floating mb-3">
                                                     <select class="form-select" id="seccional" (change)="chSeccional()"
-                                                        formControlName="txtseccional">
+                                                        formControlName="txtdepartamento">
                                                         <option selected value="">Seccional</option>
                                                         <option *ngFor="let item of lSeccional$ | async"
-                                                            [value]="item.idSeccional">
+                                                            [value]="item.idDepartamento">
                                                             {{item.descripcion}} - {{item.departamento?.descripcion}}
                                                         </option>
                                                     </select>
                                                     <label for="seccional">Seleccione la Seccional </label>
                                                 </div>
                                                 <div class="text-danger"
-                                                    *ngIf="fControl.get('txtseccional')?.invalid && (fControl.get('txtseccional')?.dirty || fControl.get('txtseccional')?.touched)">
+                                                    *ngIf="fControl.get('txtdepartamento')?.invalid && (fControl.get('txtdepartamento')?.dirty || fControl.get('txtdepartamento')?.touched)">
                                                     Ingrese la seccional
                                                 </div>
                                             </div>
