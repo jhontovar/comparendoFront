@@ -19,12 +19,21 @@ export class TransferenciasService extends BaseService {
 * @returns
 */
   public GuardarTransferencias(model: any) {
-
-
     return firstValueFrom(this.transferenciasService.GuardarTransferencia(model).pipe(map(response => {
       return this.resultadosTipado<Transferencia>(response);
     })));
-
-
   }
+
+  /**
+*
+* @param model
+* @returns
+*/
+public ConsultarTransferencias(model: any) {
+  return firstValueFrom(this.transferenciasService.ConsultarTransferencia(model).pipe(map(response => {
+    return this.resultadosTipado<Array<Transferencia>>(response);
+  })));
+}
+
+  
 }

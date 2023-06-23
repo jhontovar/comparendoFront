@@ -203,32 +203,33 @@ export class FrmCaducidadesComponent implements OnInit {
         txtNroComparendo: element.comparendo?.nroComparendo,
         txtFehaComparendo: element.comparendo?.fechaComp,
         txtFechaCaducar: element.fechaCaducar,
-        txtTotalCarteta: element.cartera?.totalCartera
+        txtTotalCarteta: element.cartera?.totalCartera || element.comparendo?.vrComp
       })
     });
 
     let lHeader = [
-      ['Secretaria', 'Fecha Generacion', 'Total Registros', 'Total Cartera'],
+      ['Secretaria', 'Fecha Generacion', 'Total Registros', 'Total Valor'],
       [
         'Secretaria',
         'Nombre Operador',
         'Zona',
         'Departamento',
-        'Nro Resolución',
+        'Resolución',
         'Fecha Resolución',
-        'Nombre',
-        'Apellido',
+        'Nombres',
+        'Apellidos',
         'Documento',
         'Tipo Documento',
         'Codigo Infracción',
-        'Nro Comparendo',
+        'Comparendo',
         'Fecha Comparendo',
         'Fecha Caducar',
-        'Total Cartera',
+        'Total',
       ]
     ];
 
     const fechaActual = new Date().toISOString().split("T").join(" ").split("Z").join("");
+
     const sum = lRecaudo.map(obj => obj.txtTotalCarteta)
       .reduce((accumulator, current) => (accumulator || 0) + (current || 0), 0);
 
@@ -249,17 +250,22 @@ export class FrmCaducidadesComponent implements OnInit {
     { field: 'secretaria.departamento.operador.descripcion', headerName: 'Nombre Operador' },
     { field: 'secretaria.departamento.operador.zona', headerName: 'Zona' },
     { field: 'secretaria.departamento.descripcion', headerName: 'Departamento' },
-    { field: 'resolucion.nroResolucion', headerName: 'Nro Resolución' },
+    { field: 'resolucion.nroResolucion', headerName: 'Resolución' },
     { field: 'resolucion.fechaResolucion', headerName: 'Fecha Resolución', type: ['dateColumn', 'nonEditableColumn'] },
-    { field: 'comparendo.nroComparendo', headerName: 'Nro Comparendo' },
+    { field: 'comparendo.nroComparendo', headerName: 'Comparendo' },
     { field: 'comparendo.fechaComp', headerName: 'Fecha Comparendo' },
-    { field: 'infractor.nombres', headerName: 'Nombre' },
-    { field: 'infractor.apellidos', headerName: 'Apellido' },
+    { field: 'infractor.nombres', headerName: 'Nombres' },
+    { field: 'infractor.apellidos', headerName: 'Apellidos' },
     { field: 'infractor.documento', headerName: 'Documento' },
     { field: 'infractor.tipoDoc.descripcion', headerName: 'Tipo Documento' },
     { field: 'comparendo.infraccion.codigoInfraccion', headerName: 'Codigo Infracción' },
     { field: 'fechaCaducar', headerName: 'Fecha a Caducar' },
-    { field: 'cartera.totalCartera', headerName: 'Total Cartera', type: 'numberColumn' },
+    {
+      field: 'cartera.totalCartera', headerName: 'Valor', type: 'numberColumn',
+      valueGetter: (row) => {
+        return row.data?.cartera?.totalCartera || row.data?.comparendo?.vrComp
+      }
+    },
   ];
 
   public gridOptions: GridOptions = {};

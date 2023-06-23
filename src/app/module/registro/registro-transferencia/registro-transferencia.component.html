@@ -12,7 +12,7 @@
 
 <div class="col py-0">
     <div class="mt-1">
-        <form [formGroup]="fControl" (ngSubmit)="btnDescargar()">
+        <form [formGroup]="fControl" (ngSubmit)="btnAceptar()">
             <section class="rounded shadow mb-3">
                 <div class="card border-light">
                     <div class="card-body">
@@ -117,8 +117,8 @@
 
                                             <div class="col-md-8">
                                                 <button type="submit" class="btn btn-secondary me-md-2"
-                                                    [disabled]="fControl.invalid"><i class="bi bi-arrow-repeat"></i>
-                                                    Transferir</button>
+                                                    [disabled]="fControl.invalid"><i class="bi bi-save"></i>
+                                                    Aceptar</button>
                                             </div>
                                         </div>
                                     </div>
@@ -129,5 +129,119 @@
                 </div>
             </section>
         </form>
+
+        <form [formGroup]="fFiltro" (ngSubmit)="btnConsulta()">
+            <section class="rounded shadow mb-3">
+                <div class="card border-light">
+                    <div class="card-body">
+                        <h6 class="card-title fw-bold text-primary text-uppercase">filtros</h6>
+                        <hr />
+                        <div class="row  g-3 mb-2">
+                            <div class="col-2">
+                                <label class="me-2 fw-bold" for="txtfechainicial">Rango de fechas:</label>
+                            </div>
+                            <div class="col-3">
+                                <input id="txtfechainicial" class="form-control" type="date"
+                                    formControlName="txtfechainicial" />
+                                <span id="txtfechainicial"></span>
+                            </div>
+                            <div class="col-3">
+                                <input id="txtfechafinal" class="form-control" type="date"
+                                    formControlName="txtfechafinal" />
+                                <span id="txtfechafinal"></span>
+                            </div>
+                        </div>
+
+                        <div class="row g-3 needs-validation mb-2">
+                            <div class="col-2"></div>
+                            <div class="col-3">
+                                <div class="form-floating">
+                                    <select class="form-select" id="seccionalfiltro" (change)="chSeccionalFiltro()"
+                                        formControlName="txtseccional">
+                                        <option selected value="">Seccional</option>
+                                        <option *ngFor="let item of lSeccional$ | async" [value]="item.idDepartamento">
+                                            {{item.descripcion}} - {{item.departamento?.descripcion}}
+                                        </option>
+                                    </select>
+                                    <label for="seccionalfiltro">Seleccione la Seccional</label>
+                                </div>
+                                <div class="text-danger"
+                                    *ngIf="fFiltro.get('txtseccional')?.invalid && (fFiltro.get('txtseccional')?.dirty || fFiltro.get('txtseccional')?.touched)">
+                                    Ingrese la seccional
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-floating">
+                                    <select class="form-select" id="municipiofiltro" formControlName="txtmunicipio">
+                                        <option selected value="">Municipio</option>
+                                        <option *ngFor="let item of lSecretariaFiltro$ | async"
+                                            [value]="item.idSecretaria">
+                                            {{item.descripcion}}
+                                        </option>
+                                    </select>
+                                    <label for="municipiofiltro">Seleccione el Municipio</label>
+                                </div>
+                                <div class="text-danger"
+                                    *ngIf="fFiltro.get('txtmunicipio')?.invalid && (fFiltro.get('txtmunicipio')?.dirty || fFiltro.get('txtmunicipio')?.touched)">
+                                    Ingrese la secretaria
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row g-0 mb-2">
+                            <div class="col-auto">
+                                <div class="mx-auto p-2">
+                                    <button type="submit" class="btn btn-secondary me-3" [disabled]="fFiltro.invalid">
+                                        <i class="bi bi-search"></i> Consultar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </form>
+
+        <section class="rounded shadow p-2 mb-3" [hidden]="bResult">
+            <div>
+                <p class="placeholder-glow">
+                    <span class="placeholder col-12"></span>
+                </p>
+
+                <p class="placeholder-wave">
+                    <span class="placeholder col-12"></span>
+                </p>
+            </div>
+        </section>
+
+        <section class="rounded shadow mb-3" [hidden]="!bResult">
+            <div class="card border-light">
+                <div class="card-body">
+                    <h6 class="card-title fw-bold text-primary text-uppercase">Resultado</h6>
+                    <hr />
+                    <div class="row g-0 bg-light">
+                        <div class="col-md-2">
+                            <div class="input-group input-group-sm text-start">
+                                <label class="input-group-text" for="filterText">Buscar</label>
+                                <input type="text" class="form-control" title="Buscar información en tabla"
+                                    id="filterText" name="filterText" (keyup)="onFilterTextBoxChanged($event.target)">
+                            </div>
+                        </div>
+                        <div class="col-md-1 offset-md-9 text-end">
+                            <a style="cursor:pointer;" class="me-3" (click)="onBtExport()" title="Exportar a CSV">
+                                <em class="bi bi-cloud-download"></em>
+                            </a>
+                            <a style="cursor:pointer;" (click)="onautoSizeAll(false)"
+                                title="Ajustar tamaño de columnas">
+                                <em class="bi bi-justify-left"></em>
+                            </a>
+                        </div>
+                        <ag-grid-angular style="height: 200px;" class="ag-theme-alpine" [defaultColDef]="defaultColDef"
+                            [columnDefs]="columnDefs" (gridReady)="onGridReady($event)">
+                        </ag-grid-angular>
+                    </div>
+                </div>
+            </div>
+        </section>
+
     </div>
 </div>

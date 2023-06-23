@@ -7,18 +7,30 @@ import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class RegistroTransferenciasService extends BaseService{
+export class RegistroTransferenciasService extends BaseService {
 
-  constructor(private apiRequestService: ApiRequestService) { 
+  constructor(private apiRequestService: ApiRequestService) {
     super();
   }
 
-    /**
-*
-* @param model
-* @returns
-*/
-public GuardarTransferencia(model: any) {
-  return this.apiRequestService.post(this.createCompleteRoute(environment.apiDitra, URLSERVICIO.CrearTransferencia), model);
-}
+  /**
+  *
+  * @param model
+  * @returns
+  */
+  public GuardarTransferencia(model: any) {
+    return this.apiRequestService.post(this.createCompleteRoute(environment.apiDitra, URLSERVICIO.CrearTransferencia), model);
+  }
+
+
+  /**
+   * 
+   * @param model 
+   * @returns 
+   */
+  public ConsultarTransferencia(model: any) {
+    return this.apiRequestService.get(this.createCompleteRoute(environment.apiDitra, URLSERVICIO.ConsultarTransferencia), model);
+  }
+
+
 }

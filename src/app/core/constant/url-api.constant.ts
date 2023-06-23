@@ -5,5 +5,6 @@ export const URLSERVICIO = {
     RecaudoSecretariaConsltar: "api/Recaudos/ConsultarSecretaria",
     RecaudoConsltarRecaudo: "api/Recaudos/Consultar",
     CaduPrescripcionConsultar: "api/CaducidadPrescripcion/Consultar",
-    CrearTransferencia: "api/Transferencia" 
+    CrearTransferencia: "api/Transferencia",
+    ConsultarTransferencia: "api/Transferencia/Consultar"
 }
