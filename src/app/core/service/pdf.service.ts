@@ -16,7 +16,8 @@ export class PdfService {
   constructor() { }
 
   generarTemplatePDF(title: string) {
-    return new PDF(title);
+    const dateCurrent = new Date().toLocaleString().split(",").join(" ")
+    return new PDF(title, dateCurrent);
   }
 
   generarPDF(template: PDF) {

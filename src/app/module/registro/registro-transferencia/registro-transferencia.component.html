@@ -1,247 +1,281 @@
 <app-toast-custom [params]="objToast"></app-toast-custom>
 
-<div class="row flex-nowrap bg-light border-none p-0 my-1 p-breadcrumb">
+<div class="row flex-nowrap bg-light border-none p-0 p-breadcrumb">
     <div class="col-auto">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a routerLink="#" class="text-muted">Registro</a></li>
-            <li class="breadcrumb-item active text-dark fw-bold fs-6" aria-current="page">Transferencia
+            <li class="breadcrumb-item active text-dark fw-bold fs-6" aria-current="page">Transferencia Directa
             </li>
         </ol>
     </div>
 </div>
-
 <div class="col py-0">
     <div class="mt-1">
-        <form [formGroup]="fControl" (ngSubmit)="btnAceptar()">
-            <section class="rounded shadow mb-3">
-                <div class="card border-light">
-                    <div class="card-body">
-                        <h6 class="card-title fw-bold text-primary text-uppercase">Realizar Transferencias</h6>
-                        <hr />
-                        <div class="row row-cols-1 row-cols-md-1 g-3">
-                            <div class="col">
-                                <div class="card border-light mb-3">
-                                    <div class="card-header text-primary text-uppercase">Fechas</div>
-                                    <div class="card-body">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="registrar-tab" data-bs-toggle="tab" data-bs-target="#registrar" type="button"
+                    role="tab" aria-controls="registrar" aria-selected="true">Registrar</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="consultar-tab" data-bs-toggle="tab" data-bs-target="#consultar" type="button"
+                    role="tab" aria-controls="consultar" aria-selected="false">Consultar</button>
+            </li>
 
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <div class="form-floating mb-3">
-                                                    <input type="date" class="form-control ng-valid" id="ffechatransf"
-                                                        placeholder="Fecha de transferencia"
-                                                        formControlName="textfechatransf">
-                                                    <label for="ffechatransf">Fecha de Transferencia</label>
-                                                </div>
-                                                <div class="text-danger"
-                                                    *ngIf="fControl.get('textfechatransf')?.invalid && (fControl.get('textfechatransf')?.dirty || fControl.get('textfechatransf')?.touched)">
-                                                    Ingrese la Fecha de Transferencia
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="registrar" role="tabpanel" aria-labelledby="registrar-tab">
+                <form [formGroup]="fControl" (ngSubmit)="btnAceptar()">
+                    <section class="rounded shadow mb-3">
+                        <div class="card border-light">
+                            <div class="card-body">
+                                <!-- <h6 class="card-title fw-bold text-primary text-uppercase">Realizar Transferencias</h6>
+                                <hr /> -->
+                                <div class="row row-cols-1 row-cols-md-1 g-3">
+                                    <div class="col">
+                                        <div class="card border-light mb-3">
+                                            <div class="card-header text-primary text-uppercase">Fechas</div>
+                                            <div class="card-body">
+
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="form-floating mb-3">
+                                                            <input type="date" class="form-control ng-valid"
+                                                                id="ffechatransf" placeholder="Fecha de transferencia"
+                                                                formControlName="textfechatransf">
+                                                            <label for="ffechatransf">Fecha de Transferencia</label>
+                                                        </div>
+                                                        <div class="text-danger"
+                                                            *ngIf="fControl.get('textfechatransf')?.invalid && (fControl.get('textfechatransf')?.dirty || fControl.get('textfechatransf')?.touched)">
+                                                            Ingrese la Fecha de Transferencia
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-floating mb-3">
+                                                            <input type="date" class="form-control ng-valid"
+                                                                id="ffechainicial" formControlName="txtfechainicial"
+                                                                placeholder="Fecha Inicial">
+                                                            <label for="ffechainicial">Fecha Inicial</label>
+                                                        </div>
+                                                        <div class="text-danger"
+                                                            *ngIf="fControl.get('txtfechainicial')?.invalid && (fControl.get('txtfechainicial')?.dirty || fControl.get('txtfechainicial')?.touched)">
+                                                            Ingrese la Fecha del Periodo Inicial
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-floating mb-3">
+                                                            <input type="date" class="form-control ng-valid"
+                                                                id="ffechafinal" formControlName="txtfechafinal"
+                                                                placeholder="Fecha Final">
+                                                            <label for="ffechafinal">Fecha Final</label>
+                                                        </div>
+                                                        <div class="text-danger"
+                                                            *ngIf="fControl.get('txtfechafinal')?.invalid && (fControl.get('txtfechafinal')?.dirty || fControl.get('txtfechafinal')?.touched)">
+                                                            Ingrese la Fecha del Periodo Final
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-4">
-                                                <div class="form-floating mb-3">
-                                                    <input type="date" class="form-control ng-valid" id="ffechainicial"
-                                                        formControlName="txtfechainicial" placeholder="Fecha Inicial">
-                                                    <label for="ffechainicial">Fecha Inicial</label>
-                                                </div>
-                                                <div class="text-danger"
-                                                    *ngIf="fControl.get('txtfechainicial')?.invalid && (fControl.get('txtfechainicial')?.dirty || fControl.get('txtfechainicial')?.touched)">
-                                                    Ingrese la Fecha del Periodo Inicial
-                                                </div>
+                                        </div>
+                                        <div class="card border-light mb-3">
+                                            <div class="card-header text-primary text-uppercase">Lugar a Transferir
                                             </div>
-                                            <div class="col-md-4">
-                                                <div class="form-floating mb-3">
-                                                    <input type="date" class="form-control ng-valid" id="ffechafinal"
-                                                        formControlName="txtfechafinal" placeholder="Fecha Final">
-                                                    <label for="ffechafinal">Fecha Final</label>
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="form-floating mb-3">
+                                                            <select class="form-select" id="seccional"
+                                                                (change)="chSeccional()"
+                                                                formControlName="txtdepartamento">
+                                                                <option selected value="">Seccional</option>
+                                                                <option *ngFor="let item of lSeccional$ | async"
+                                                                    [value]="item.idDepartamento">
+                                                                    {{item.descripcion}} -
+                                                                    {{item.departamento?.descripcion}}
+                                                                </option>
+                                                            </select>
+                                                            <label for="seccional">Seleccione la Seccional </label>
+                                                        </div>
+                                                        <div class="text-danger"
+                                                            *ngIf="fControl.get('txtdepartamento')?.invalid && (fControl.get('txtdepartamento')?.dirty || fControl.get('txtdepartamento')?.touched)">
+                                                            Ingrese la seccional
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-floating mb-3">
+                                                            <select class="form-select" id="municipio"
+                                                                formControlName="txtmunicipio">
+                                                                <option selected value="">Municipio</option>
+                                                                <option *ngFor="let item of lSecretaria$ | async"
+                                                                    [value]="item.idSecretaria">
+                                                                    {{item.descripcion}} -
+                                                                    {{item.departamento?.descripcion}}
+                                                                </option>
+                                                            </select>
+                                                            <label for="municipio">Seleccione El Municipio</label>
+                                                        </div>
+                                                        <div class="text-danger"
+                                                            *ngIf="fControl.get('txtmunicipio')?.invalid && (fControl.get('txtmunicipio')?.dirty || fControl.get('txtmunicipio')?.touched)">
+                                                            Ingrese la secretaria
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-floating mb-3">
+                                                            <input type="number" class="form-control" id="fvalor"
+                                                                placeholder="0.00" formControlName="txtvalor"
+                                                                type="text" (blur)="onInputBlur()"
+                                                                (ngModelChange)="onModelChange()">
+                                                            <label for="fvalor">Valor a Transferir</label>
+                                                        </div>
+                                                        <div class="text-danger"
+                                                            *ngIf="fControl.get('txtvalor')?.invalid && (fControl.get('txtvalor')?.dirty || fControl.get('txtvalor')?.touched)">
+                                                            Ingrese el valor a Transferir
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <div class="text-danger"
-                                                    *ngIf="fControl.get('txtfechafinal')?.invalid && (fControl.get('txtfechafinal')?.dirty || fControl.get('txtfechafinal')?.touched)">
-                                                    Ingrese la Fecha del Periodo Final
-                                                </div>
+                                              
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="card border-light mb-3">
-                                    <div class="card-header text-primary text-uppercase">Lugar a Transferir</div>
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <div class="form-floating mb-3">
-                                                    <select class="form-select" id="seccional" (change)="chSeccional()"
-                                                        formControlName="txtdepartamento">
-                                                        <option selected value="">Seccional</option>
-                                                        <option *ngFor="let item of lSeccional$ | async"
-                                                            [value]="item.idDepartamento">
-                                                            {{item.descripcion}} - {{item.departamento?.descripcion}}
-                                                        </option>
-                                                    </select>
-                                                    <label for="seccional">Seleccione la Seccional </label>
-                                                </div>
-                                                <div class="text-danger"
-                                                    *ngIf="fControl.get('txtdepartamento')?.invalid && (fControl.get('txtdepartamento')?.dirty || fControl.get('txtdepartamento')?.touched)">
-                                                    Ingrese la seccional
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="form-floating mb-3">
-                                                    <select class="form-select" id="municipio"
-                                                        formControlName="txtmunicipio">
-                                                        <option selected value="">Municipio</option>
-                                                        <option *ngFor="let item of lSecretaria$ | async"
-                                                            [value]="item.idSecretaria">
-                                                            {{item.descripcion}} - {{item.departamento?.descripcion}}
-                                                        </option>
-                                                    </select>
-                                                    <label for="municipio">Seleccione El Municipio</label>
-                                                </div>
-                                                <div class="text-danger"
-                                                    *ngIf="fControl.get('txtmunicipio')?.invalid && (fControl.get('txtmunicipio')?.dirty || fControl.get('txtmunicipio')?.touched)">
-                                                    Ingrese la secretaria
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="form-floating mb-3">
-                                                    <input type="number" class="form-control" id="fvalor"
-                                                        placeholder="0.00" formControlName="txtvalor" type="text"
-                                                        (blur)="onInputBlur()" (ngModelChange)="onModelChange()">
-                                                    <label for="fvalor">Valor a Transferir</label>
-                                                </div>
-                                                <div class="text-danger"
-                                                    *ngIf="fControl.get('txtvalor')?.invalid && (fControl.get('txtvalor')?.dirty || fControl.get('txtvalor')?.touched)">
-                                                    Ingrese el valor a Transferir
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
+                                <div class="row">
 
-                                            <div class="col-md-8">
-                                                <button type="submit" class="btn btn-secondary me-md-2"
-                                                    [disabled]="fControl.invalid"><i class="bi bi-save"></i>
-                                                    Aceptar</button>
-                                            </div>
+                                    <div class="col-md-8">
+                                        <button type="submit" class="btn btn-secondary me-md-2"
+                                            [disabled]="fControl.invalid"><i class="bi bi-save"></i>
+                                            Aceptar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </form>
+            </div>
+            <div class="tab-pane fade" id="consultar" role="tabpanel" aria-labelledby="consultar-tab">
+                <form [formGroup]="fFiltro" (ngSubmit)="btnConsultar()">
+                    <section class="rounded shadow mb-3">
+                        <div class="card border-light">
+                            <div class="card-body">
+                                <!-- <h6 class="card-title fw-bold text-primary text-uppercase">filtros</h6>
+                                <hr /> -->
+                                <div class="row  g-3 mb-2">
+                                    <div class="col-2">
+                                        <label class="me-2 fw-bold" for="txtfechainicial">Rango de fechas:</label>
+                                    </div>
+                                    <div class="col-3">
+                                        <input id="txtfechainicial" class="form-control" type="date"
+                                            formControlName="txtfechainicial" />
+                                        <span id="txtfechainicial"></span>
+                                    </div>
+                                    <div class="col-3">
+                                        <input id="txtfechafinal" class="form-control" type="date"
+                                            formControlName="txtfechafinal" />
+                                        <span id="txtfechafinal"></span>
+                                    </div>
+                                </div>
+
+                                <div class="row g-3 needs-validation mb-2">
+                                    <div class="col-2"></div>
+                                    <div class="col-3">
+                                        <div class="form-floating">
+                                            <select class="form-select" id="seccionalfiltro"
+                                                (change)="chSeccionalFiltro()" formControlName="txtseccional">
+                                                <option selected value="">Seccional</option>
+                                                <option *ngFor="let item of lSeccional$ | async"
+                                                    [value]="item.idDepartamento">
+                                                    {{item.descripcion}} - {{item.departamento?.descripcion}}
+                                                </option>
+                                            </select>
+                                            <label for="seccionalfiltro">Seleccione la Seccional</label>
+                                        </div>
+                                        <div class="text-danger"
+                                            *ngIf="fFiltro.get('txtseccional')?.invalid && (fFiltro.get('txtseccional')?.dirty || fFiltro.get('txtseccional')?.touched)">
+                                            Ingrese la seccional
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="form-floating">
+                                            <select class="form-select" id="municipiofiltro"
+                                                formControlName="txtmunicipio">
+                                                <option selected value="">Municipio</option>
+                                                <option *ngFor="let item of lSecretariaFiltro$ | async"
+                                                    [value]="item.idSecretaria">
+                                                    {{item.descripcion}}
+                                                </option>
+                                            </select>
+                                            <label for="municipiofiltro">Seleccione el Municipio</label>
+                                        </div>
+                                        <div class="text-danger"
+                                            *ngIf="fFiltro.get('txtmunicipio')?.invalid && (fFiltro.get('txtmunicipio')?.dirty || fFiltro.get('txtmunicipio')?.touched)">
+                                            Ingrese la secretaria
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row g-0 mb-2">
+                                    <div class="col-auto">
+                                        <div class="mx-auto p-2">
+                                            <button type="submit" class="btn btn-secondary me-3"
+                                                [disabled]="fFiltro.invalid">
+                                                <i class="bi bi-search"></i> Consultar</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </section>
+                </form>
+
+                <section class="rounded shadow p-2 mb-3" [hidden]="bResult">
+                    <div>
+                        <p class="placeholder-glow">
+                            <span class="placeholder col-12"></span>
+                        </p>
+
+                        <p class="placeholder-wave">
+                            <span class="placeholder col-12"></span>
+                        </p>
                     </div>
-                </div>
-            </section>
-        </form>
+                </section>
 
-        <form [formGroup]="fFiltro" (ngSubmit)="btnConsulta()">
-            <section class="rounded shadow mb-3">
-                <div class="card border-light">
-                    <div class="card-body">
-                        <h6 class="card-title fw-bold text-primary text-uppercase">filtros</h6>
-                        <hr />
-                        <div class="row  g-3 mb-2">
-                            <div class="col-2">
-                                <label class="me-2 fw-bold" for="txtfechainicial">Rango de fechas:</label>
-                            </div>
-                            <div class="col-3">
-                                <input id="txtfechainicial" class="form-control" type="date"
-                                    formControlName="txtfechainicial" />
-                                <span id="txtfechainicial"></span>
-                            </div>
-                            <div class="col-3">
-                                <input id="txtfechafinal" class="form-control" type="date"
-                                    formControlName="txtfechafinal" />
-                                <span id="txtfechafinal"></span>
-                            </div>
-                        </div>
-
-                        <div class="row g-3 needs-validation mb-2">
-                            <div class="col-2"></div>
-                            <div class="col-3">
-                                <div class="form-floating">
-                                    <select class="form-select" id="seccionalfiltro" (change)="chSeccionalFiltro()"
-                                        formControlName="txtseccional">
-                                        <option selected value="">Seccional</option>
-                                        <option *ngFor="let item of lSeccional$ | async" [value]="item.idDepartamento">
-                                            {{item.descripcion}} - {{item.departamento?.descripcion}}
-                                        </option>
-                                    </select>
-                                    <label for="seccionalfiltro">Seleccione la Seccional</label>
+                <section class="rounded shadow mb-3" [hidden]="!bResult">
+                    <div class="card border-light">
+                        <div class="card-body">
+                            <h6 class="card-title fw-bold text-primary text-uppercase">Resultado</h6>
+                            <hr />
+                            <div class="row g-0 bg-light">
+                                <div class="col-md-2">
+                                    <div class="input-group input-group-sm text-start">
+                                        <label class="input-group-text" for="filterText">Buscar</label>
+                                        <input type="text" class="form-control" title="Buscar información en tabla"
+                                            id="filterText" name="filterText"
+                                            (keyup)="onFilterTextBoxChanged($event.target)">
+                                    </div>
                                 </div>
-                                <div class="text-danger"
-                                    *ngIf="fFiltro.get('txtseccional')?.invalid && (fFiltro.get('txtseccional')?.dirty || fFiltro.get('txtseccional')?.touched)">
-                                    Ingrese la seccional
+                                <div class="col-md-1 offset-md-9 text-end">
+                                    <a style="cursor:pointer;" class="me-3" (click)="onBtExport()"
+                                        title="Exportar a CSV">
+                                        <em class="bi bi-cloud-download"></em>
+                                    </a>
+                                    <a style="cursor:pointer;" (click)="onautoSizeAll(false)"
+                                        title="Ajustar tamaño de columnas">
+                                        <em class="bi bi-justify-left"></em>
+                                    </a>
                                 </div>
-                            </div>
-                            <div class="col-3">
-                                <div class="form-floating">
-                                    <select class="form-select" id="municipiofiltro" formControlName="txtmunicipio">
-                                        <option selected value="">Municipio</option>
-                                        <option *ngFor="let item of lSecretariaFiltro$ | async"
-                                            [value]="item.idSecretaria">
-                                            {{item.descripcion}}
-                                        </option>
-                                    </select>
-                                    <label for="municipiofiltro">Seleccione el Municipio</label>
-                                </div>
-                                <div class="text-danger"
-                                    *ngIf="fFiltro.get('txtmunicipio')?.invalid && (fFiltro.get('txtmunicipio')?.dirty || fFiltro.get('txtmunicipio')?.touched)">
-                                    Ingrese la secretaria
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row g-0 mb-2">
-                            <div class="col-auto">
-                                <div class="mx-auto p-2">
-                                    <button type="submit" class="btn btn-secondary me-3" [disabled]="fFiltro.invalid">
-                                        <i class="bi bi-search"></i> Consultar</button>
-                                </div>
+                                <ag-grid-angular style="height: 200px;" class="ag-theme-alpine"
+                                    [defaultColDef]="defaultColDef" [columnDefs]="columnDefs"
+                                    (gridReady)="onGridReady($event)">
+                                </ag-grid-angular>
                             </div>
                         </div>
                     </div>
-                </div>
-            </section>
-        </form>
-
-        <section class="rounded shadow p-2 mb-3" [hidden]="bResult">
-            <div>
-                <p class="placeholder-glow">
-                    <span class="placeholder col-12"></span>
-                </p>
-
-                <p class="placeholder-wave">
-                    <span class="placeholder col-12"></span>
-                </p>
+                </section>
             </div>
-        </section>
+        </div>
 
-        <section class="rounded shadow mb-3" [hidden]="!bResult">
-            <div class="card border-light">
-                <div class="card-body">
-                    <h6 class="card-title fw-bold text-primary text-uppercase">Resultado</h6>
-                    <hr />
-                    <div class="row g-0 bg-light">
-                        <div class="col-md-2">
-                            <div class="input-group input-group-sm text-start">
-                                <label class="input-group-text" for="filterText">Buscar</label>
-                                <input type="text" class="form-control" title="Buscar información en tabla"
-                                    id="filterText" name="filterText" (keyup)="onFilterTextBoxChanged($event.target)">
-                            </div>
-                        </div>
-                        <div class="col-md-1 offset-md-9 text-end">
-                            <a style="cursor:pointer;" class="me-3" (click)="onBtExport()" title="Exportar a CSV">
-                                <em class="bi bi-cloud-download"></em>
-                            </a>
-                            <a style="cursor:pointer;" (click)="onautoSizeAll(false)"
-                                title="Ajustar tamaño de columnas">
-                                <em class="bi bi-justify-left"></em>
-                            </a>
-                        </div>
-                        <ag-grid-angular style="height: 200px;" class="ag-theme-alpine" [defaultColDef]="defaultColDef"
-                            [columnDefs]="columnDefs" (gridReady)="onGridReady($event)">
-                        </ag-grid-angular>
-                    </div>
-                </div>
-            </div>
-        </section>
+
+
+
+
 
     </div>
 </div>

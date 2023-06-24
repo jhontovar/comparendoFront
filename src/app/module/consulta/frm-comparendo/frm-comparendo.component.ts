@@ -17,11 +17,10 @@ export class FrmComparendoComponent implements OnInit {
   public fPaciente: FormGroup;
   public objToast: any = {};
 
-
   constructor(private fb: FormBuilder, private comparendoStateService: ComparendoStateService,
     private pdfService: PdfService, private excelService: ExcelService) {
     this.fPaciente = this.fb.group({
-      txtComparendo: ['99999999000005435316', [Validators.required]],
+      txtComparendo: ['0', [Validators.required]],
       options: new FormArray([])
     });
   }
@@ -31,7 +30,7 @@ export class FrmComparendoComponent implements OnInit {
 
   public btnGetComparendo() {
     let model = {
-      nroComparendo: this.fPaciente.controls['txtComparendo'].value //"9819278"
+      nroComparendo: this.fPaciente.controls['txtComparendo'].value
     };
 
     this.comparendoStateService.ComparendosConsultar(model).subscribe({

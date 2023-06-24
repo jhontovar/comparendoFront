@@ -1,6 +1,6 @@
 export class PDF {
     hoja: PropertiesPDF;
-    constructor(title: string) {
+    constructor(title: string, date:string) {
         this.hoja = new PropertiesPDF();
         this.hoja.content =
             [
@@ -23,7 +23,7 @@ export class PDF {
                     'absolutePosition': { 'x': 450, 'y': 820 }
                 },
                 {
-                    'text': '{{P_DATE_GENERATED_DOC}}',
+                    'text': date,
                     'alignment': 'right', style: 'tableHeader',
                 },
                 { 'text': 'DIRECCION DE TRANSITO Y TRANSPORTE', 'alignment': 'right', style: 'tableHeader', },

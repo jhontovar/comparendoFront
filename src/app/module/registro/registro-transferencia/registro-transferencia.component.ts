@@ -77,7 +77,12 @@ export class RegistroTransferenciaComponent implements OnInit {
    * 
    */
   public chSeccionalFiltro() {
-    const idDepartamento = this.fFiltro.controls['txtseccional'].value || "";
+    const idDepartamento = this.fFiltro.controls['txtseccional'].value;
+    if (!idDepartamento) {
+      this.fFiltro.controls["txtmunicipio"].disable();
+      this.fFiltro.controls["txtmunicipio"].setValue('');
+      return;
+    }
     this.fFiltro.controls["txtmunicipio"].enable();
     this.fFiltro.controls["txtmunicipio"].setValue('');
     this.fnGetSecretariaFiltro(idDepartamento);
@@ -128,7 +133,7 @@ export class RegistroTransferenciaComponent implements OnInit {
   /**
    * Consultar filtro
    */
-  async btnConsulta() {
+  async btnConsultar() {
     this.bResult = false;
     let model = {
       idSecretaria: this.fFiltro.controls['txtmunicipio'].value || 0,

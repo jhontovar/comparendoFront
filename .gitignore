@@ -30,6 +30,9 @@ yarn-error.log
 
 # Miscellaneous
 /.angular/cache
+.scannerwork/*
+.scannerwork/.sonar_lock
+.scannerwork/report-task.txt
 .sass-cache/
 /connect.lock
 /coverage
