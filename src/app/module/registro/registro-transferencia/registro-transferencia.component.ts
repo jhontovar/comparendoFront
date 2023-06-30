@@ -167,6 +167,8 @@ export class RegistroTransferenciaComponent implements OnInit {
   async btnConsultar() {
     this.bResult = false;
     let model = {
+      tipoConsulta: this.fFiltro.controls['txttipo'].value || 0,
+      idSeccional: this.fFiltro.controls['txtseccional'].value || 0,
       idSecretaria: this.fFiltro.controls['txtmunicipio'].value || 0,
       fechaInicial: this.fFiltro.controls['txtfechainicial'].value,
       fechaFinal: this.fFiltro.controls['txtfechafinal'].value,
