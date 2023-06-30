@@ -22,13 +22,11 @@
                                 <label class="me-2 fw-bold" for="startDate">Rango de fechas:</label>
                             </div>
                             <div class="col-3">
-                                <!-- <label for="startDate">Start</label> -->
                                 <input id="startDate" class="form-control" type="date"
                                     formControlName="txtfechainicial" />
                                 <span id="startDateSelected"></span>
                             </div>
                             <div class="col-3">
-                                <!-- <label for="endDate">End</label> -->
                                 <input id="endDate" class="form-control" type="date" formControlName="txtfechafinal" />
                                 <span id="endDateSelected"></span>
                             </div>
@@ -128,7 +126,7 @@
                                     <button type="submit" class="btn btn-secondary me-3" [disabled]="fControl.invalid">
                                         <i class="bi bi-search"></i> Consultar</button>
                                     <button type="submit" class="btn btn-success" [disabled]="fControl.invalid"
-                                        (click)="btnDescargar()" title="Descargar EXCEL" [disabled]="!bResult">
+                                        (click)="btnDescargar()" title="Descargar EXCEL">
                                         <i class="bi bi-file-earmark-excel"></i> </button>
                                 </div>
                             </div>

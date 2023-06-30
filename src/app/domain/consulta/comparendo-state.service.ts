@@ -23,13 +23,6 @@ export class ComparendoStateService extends BaseService {
     return this.comparendoService.ComparendosConsultar(model).pipe(map(response => {
       return this.resultadosTipado<RespuestaComparendoDto>(response);
     }));
-
-
-    // return this.mock.getDataComparendo().pipe(map(response => {
-    //   return this.resultadosTipado<RespuestaComparendoDto>(response);
-    // }));
-
-
   }
 
 }

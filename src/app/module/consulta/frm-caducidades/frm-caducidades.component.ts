@@ -112,18 +112,22 @@ export class FrmCaducidadesComponent implements OnInit {
       case "C":
         this.fControl.controls["txtfechainicial"].enable();
         this.fControl.controls["txtfechafinal"].enable();
+        this.gridOptions?.columnApi?.setColumnVisible('fechaCaducar', false);
         break;
       case "P":
         this.fControl.controls["txtfechainicial"].enable();
         this.fControl.controls["txtfechafinal"].enable();
+        this.gridOptions?.columnApi?.setColumnVisible('fechaCaducar', false)
         break;
       case "CP":
         this.fControl.controls["txtfechainicial"].disable();
         this.fControl.controls["txtfechafinal"].disable();
+        this.gridOptions?.columnApi?.setColumnVisible('fechaCaducar', true);
         break;
       case "PP":
         this.fControl.controls["txtfechainicial"].disable();
         this.fControl.controls["txtfechafinal"].disable();
+        this.gridOptions?.columnApi?.setColumnVisible('fechaCaducar', true);
         break;
       default:
         break;
@@ -243,31 +247,72 @@ export class FrmCaducidadesComponent implements OnInit {
     this.bDescargaExitosa = true;
   }
 
+  getClassOf(): string {
+    let valor = this.fControl.controls['txtconsulta'].value;
+    switch (valor) {
+      case 'PP':
+      case 'CP':
+        return 'fw-light'
+      case 'C':
+      case 'P':
+        return 'fw-bold'
+      default:
+        return 'fw-bold'
+    }
+  }
+
   //#region Grid
+  private fnCurrencyFormatter(currency: number, sign: string) {
+    if (!currency) {
+      return "";
+    }
+    var sansDec = currency.toFixed(0);
+    var formatted = sansDec.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return sign + `${formatted}`;
+  }
+
+  private fnDateFormatter(date: string) {
+    if (!date) {
+      return "";
+    }
+    return formatDate(date, 'dd/MM/yyyy', 'en');
+  }
+
+  private bFechVenc: boolean = false;
 
   public columnDefs: ColDef[] = [
     { field: 'secretaria.descripcion', headerName: 'Secretaria' },
-    { field: 'secretaria.departamento.operador.descripcion', headerName: 'Nombre Operador' },
-    { field: 'secretaria.departamento.operador.zona', headerName: 'Zona' },
+    { field: 'secretaria.departamento.operador.descripcion', headerName: 'Operador/Zona' },
     { field: 'secretaria.departamento.descripcion', headerName: 'Departamento' },
     { field: 'resolucion.nroResolucion', headerName: 'Resolución' },
-    { field: 'resolucion.fechaResolucion', headerName: 'Fecha Resolución', type: ['dateColumn', 'nonEditableColumn'] },
+    {
+      field: 'resolucion.fechaResolucion', headerName: 'Fecha Resolución',
+      valueFormatter: params => this.fnDateFormatter(params.data.resolucion?.fechaResolucion)
+    },
     { field: 'comparendo.nroComparendo', headerName: 'Comparendo' },
-    { field: 'comparendo.fechaComp', headerName: 'Fecha Comparendo' },
+    {
+      field: 'comparendo.fechaComp', headerName: 'Fecha Comparendo',
+      valueFormatter: params => this.fnDateFormatter(params.data.comparendo?.fechaComp)
+    },
     { field: 'infractor.nombres', headerName: 'Nombres' },
     { field: 'infractor.apellidos', headerName: 'Apellidos' },
     { field: 'infractor.documento', headerName: 'Documento' },
     { field: 'infractor.tipoDoc.descripcion', headerName: 'Tipo Documento' },
     { field: 'comparendo.infraccion.codigoInfraccion', headerName: 'Codigo Infracción' },
-    { field: 'fechaCaducar', headerName: 'Fecha a Caducar' },
+    {
+      field: 'fechaCaducar', headerName: 'Fecha Vencimiento',
+      valueFormatter: params => this.fnDateFormatter(params.data.fechaCaducar)
+    },
     {
       field: 'cartera.totalCartera', headerName: 'Valor', type: 'numberColumn',
       valueGetter: (row) => {
-        return row.data?.cartera?.totalCartera || row.data?.comparendo?.vrComp
+        let valor = row.data?.cartera?.totalCartera || row.data?.comparendo?.vrComp;
+        return this.fnCurrencyFormatter(valor, '$')
       }
     },
   ];
 
+  
   public gridOptions: GridOptions = {};
   public defaultColDef = {
     filter: 'agTextColumnFilter',

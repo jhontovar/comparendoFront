@@ -190,6 +190,21 @@ export class FrmRecaudoTransferenciaComponent implements OnInit {
   }
 
   //#region Grid
+  private fnCurrencyFormatter(currency: number, sign: string) {
+    if (!currency) {
+      return "";
+    }
+    var sansDec = currency.toFixed(0);
+    var formatted = sansDec.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return sign + `${formatted}`;
+  }
+
+  private fnDateFormatter(date: string) {
+    if (!date) {
+      return "";
+    }
+    return formatDate(date, 'dd/MM/yyyy', 'en');
+  }
 
   public columnDefs: ColDef[] = [
     { field: 'idRecaudo', headerName: 'Id Recaudo', hide: true },
@@ -203,33 +218,52 @@ export class FrmRecaudoTransferenciaComponent implements OnInit {
         return row.data?.comparendo?.documento?.documento || row.data?.resolucion?.documento?.documento
       }
     },
-
     {
       field: 'codigoInfraccion', headerName: 'Código Infracción',
       valueGetter: (row) => {
         return row.data?.comparendo?.infraccion?.codigoInfraccion || row.data?.resolucion?.infraccion?.codigoInfraccion
       }
     },
-
     {
       field: 'comparendo.infraccion.vrDiarioDesde', headerName: 'Cantidad SMDLV', type: 'numberColumn',
       valueGetter: (row) => {
         return row.data?.comparendo?.infraccion?.vrDiarioDesde || row.data?.resolucion?.infraccion?.vrDiarioDesde
       }
     },
-    { field: 'vrPagado', headerName: 'Total pagado', type: 'numberColumn' },
+    {
+      field: 'vrPagado', headerName: 'Total pagado', type: 'numberColumn',
+      valueFormatter: params => this.fnCurrencyFormatter(params.data.vrPagado, '$'),
+    },
     { field: 'porcentajeSimit', headerName: 'Porcentaje SIMIT' },
-    { field: 'vrSimit', headerName: 'Valor SIMIT', type: 'numberColumn' },
+    {
+      field: 'vrSimit', headerName: 'Valor SIMIT', type: 'numberColumn',
+      valueFormatter: params => this.fnCurrencyFormatter(params.data.vrSimit, '$'),
+    },
     { field: 'porcentajeDitra', headerName: 'Porcentaje DITRA' },
-    { field: 'vrDitra', headerName: 'Valor DITRA', type: 'numberColumn' },
+    {
+      field: 'vrDitra', headerName: 'Valor DITRA', type: 'numberColumn',
+      valueFormatter: params => this.fnCurrencyFormatter(params.data.vrDitra, '$'),
+    },
     { field: 'porcentajeMunicipio', headerName: 'Porcentaje municipio' },
-    { field: 'vrMunicipio', headerName: 'Valor municipio', type: 'numberColumn' },
-    { field: 'fechaRecaudo', headerName: 'Fecha contable' },
-    { field: 'tipoRec.descripcion', headerName: 'Tipo de recaudo' },
-    { field: 'porcentajeDescuento', headerName: 'Porcentaje de descuento' },
-    { field: 'vrDescuento', headerName: 'Valor de descuento', type: 'numberColumn' },
+    {
+      field: 'vrMunicipio', headerName: 'Valor municipio', type: 'numberColumn',
+      valueFormatter: params => this.fnCurrencyFormatter(params.data.vrMunicipio, '$'),
+    },
+    {
+      field: 'fechaRecaudo', headerName: 'Fecha contable',
+      valueFormatter: params => this.fnDateFormatter(params.data.fechaRecaudo),
+    },
+    { field: 'tipoRec.descripcion', headerName: 'Tipo de Recaudo' },
+    { field: 'porcentajeDescuento', headerName: 'Porcentaje Descuento' },
+    {
+      field: 'vrDescuento', headerName: 'Valor Descuento', type: 'numberColumn',
+      valueFormatter: params => this.fnCurrencyFormatter(params.data.vrDescuento, '$'),
+    },
     { field: 'nroRadicado', headerName: 'Nro Radicado' },
-    { field: 'fechaRadicado', headerName: 'Fecha radicado' },
+    {
+      field: 'fechaRadicado', headerName: 'Fecha Radicado',
+      valueFormatter: params => this.fnDateFormatter(params.data.fechaRadicado),
+    },
   ];
 
   public gridOptions: GridOptions = {};

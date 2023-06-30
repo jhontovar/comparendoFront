@@ -1,3 +1,4 @@
+import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ColDef } from 'ag-grid-community';
@@ -13,7 +14,7 @@ import { RespuestaComparendoDto } from 'src/app/domain/interface/respuesta-compa
   styleUrls: ['./frm-comparendo.component.scss']
 })
 export class FrmComparendoComponent implements OnInit {
-  public oRespone: RespuestaComparendoDto = {}; //
+  public oRespone: RespuestaComparendoDto = {};
   public fPaciente: FormGroup;
   public objToast: any = {};
 
@@ -28,6 +29,9 @@ export class FrmComparendoComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  /**
+   * Consultar comparendo
+   */
   public btnGetComparendo() {
     let model = {
       nroComparendo: this.fPaciente.controls['txtComparendo'].value
@@ -38,7 +42,6 @@ export class FrmComparendoComponent implements OnInit {
         this.oRespone = {};
         if (response.EsExitoso) {
           this.oRespone = response.Resultado
-
 
           this.oRespone.fechaHora = this.fnConvertStringDate(this.oRespone.fechaComp || "", this.oRespone.horaComp || "");
           this.oRespone.jurisdiccion = this.oRespone.secretaria.divipo + '-' + this.oRespone.secretaria.descripcion;
@@ -251,13 +254,28 @@ export class FrmComparendoComponent implements OnInit {
 
     const fechaActual = new Date().toISOString().split("T").join(" ").split("Z").join("");
     let nombreReporte = DITRA.CONFIGURACION.NOMBRE_REPORTE.concat(fechaActual)
-    let lShetsName: string[] = ["Resolución", "Recaudo"];
+    let lShetsName: string[] = ["Historial", "Recaudo"];
     this.excelService.exportAsExcelFilebySheets(lData, nombreReporte, lShetsName, lHeader, []);
   }
 
   //#endregion
 
   //#region Grid
+  private fnCurrencyFormatter(currency: number, sign: string) {
+    if (!currency) {
+      return "";
+    }
+    var sansDec = currency.toFixed(0);
+    var formatted = sansDec.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return sign + `${formatted}`;
+  }
+
+  private fnDateFormatter(params: any) {
+    if (params && params.data?.fechaTransferencia) {
+      return formatDate(params.data.fechaTransferencia, 'dd/MM/yyyy', 'en');
+    }
+    return params.data.fechaTransferencia;
+  }
 
   columnDefs: ColDef[] = [
     { field: 'nroResolucion' },
@@ -271,12 +289,12 @@ export class FrmComparendoComponent implements OnInit {
 
   columnDefsRecaudo: ColDef[] = [
     { field: 'tipoRec.descripcion' },
-    { field: 'vrDescuento' },
+    { field: 'vrDescuento', valueFormatter: params => this.fnCurrencyFormatter(params.data.vrDescuento, '$'), },
     { field: 'porcentajeDescuento' },
-    { field: 'vrPagado' },
+    { field: 'vrPagado', valueFormatter: params => this.fnCurrencyFormatter(params.data.vrPagado, '$'), },
     { field: 'transferido' },
-    { field: 'fechaTransferencia' },
-    { field: 'vrTransferido' }
+    { field: 'fechaTransferencia', valueFormatter: this.fnDateFormatter },
+    { field: 'vrTransferido', valueFormatter: params => this.fnCurrencyFormatter(params.data.vrTransferido, '$'), }
   ];
 
   gridOptionsResolucion: any;

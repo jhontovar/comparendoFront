@@ -13,12 +13,12 @@
     <div class="mt-1">
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="registrar-tab" data-bs-toggle="tab" data-bs-target="#registrar" type="button"
-                    role="tab" aria-controls="registrar" aria-selected="true">Registrar</button>
+                <button class="nav-link active" id="registrar-tab" data-bs-toggle="tab" data-bs-target="#registrar"
+                    type="button" role="tab" aria-controls="registrar" aria-selected="true">Registrar</button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="consultar-tab" data-bs-toggle="tab" data-bs-target="#consultar" type="button"
-                    role="tab" aria-controls="consultar" aria-selected="false">Consultar</button>
+                <button class="nav-link" id="consultar-tab" data-bs-toggle="tab" data-bs-target="#consultar"
+                    type="button" role="tab" aria-controls="consultar" aria-selected="false">Consultar</button>
             </li>
 
         </ul>
@@ -132,7 +132,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                              
+
                                             </div>
                                         </div>
                                     </div>
@@ -173,6 +173,34 @@
                                     </div>
                                 </div>
 
+                                <div class="row g-2 mb-2">
+                                    <div class="col-2">
+                                        <label class="me-2 fw-bold" for="tipoConsulta1">Tipo de consulta:</label>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="input-group">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="txttipo"
+                                                    id="tipoConsulta1" value="N" (click)="onTipoConsulta($event.target)"
+                                                    formControlName="txttipo">
+                                                <label class="form-check-label" for="tipoConsulta1">Nacional</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="txttipo"
+                                                    id="tipoConsulta2" value="S" (click)="onTipoConsulta($event.target)"
+                                                    formControlName="txttipo">
+                                                <label class="form-check-label" for="tipoConsulta2">Seccional</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="txttipo"
+                                                    id="tipoConsulta3" value="M" (click)="onTipoConsulta($event.target)"
+                                                    formControlName="txttipo">
+                                                <label class="form-check-label" for="tipoConsulta3">Municipio</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div class="row g-3 needs-validation mb-2">
                                     <div class="col-2"></div>
                                     <div class="col-3">
@@ -181,7 +209,7 @@
                                                 (change)="chSeccionalFiltro()" formControlName="txtseccional">
                                                 <option selected value="">Seccional</option>
                                                 <option *ngFor="let item of lSeccional$ | async"
-                                                    [value]="item.idDepartamento">
+                                                    [value]="item.idSeccional">
                                                     {{item.descripcion}} - {{item.departamento?.descripcion}}
                                                 </option>
                                             </select>

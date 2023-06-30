@@ -37,10 +37,11 @@ export class RegistroTransferenciaComponent implements OnInit {
     let firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
 
     this.fFiltro = this.fb.group({
-      txtseccional: [{ value: '', disabled: false }],
+      txtseccional: [{ value: '', disabled: true }],
       txtmunicipio: [{ value: '', disabled: true }, [Validators.required]],
       txtfechainicial: [formatDate(firstDay, 'yyyy-MM-dd', 'en'), [Validators.required]],
       txtfechafinal: [formatDate(date, 'yyyy-MM-dd', 'en'), [Validators.required]],
+      txttipo: ["N", [Validators.required]],
     });
 
     let model = { IdSeccional: "0" }
@@ -72,20 +73,50 @@ export class RegistroTransferenciaComponent implements OnInit {
     this.lSecretaria$ = this.recaudoTransferenciaStateService.ConsltarSecretaria(model);
   }
 
+  /**
+* 
+* @param event 
+*/
+  onTipoConsulta(event: any) {
+    switch (event.value) {
+      case "N":
+        this.fFiltro.controls["txtseccional"].disable();
+        this.fFiltro.controls["txtmunicipio"].disable();
+        this.fFiltro.controls["txtseccional"].setValue('');
+        this.fFiltro.controls["txtmunicipio"].setValue('');
+        break;
+      case "S":
+        this.fFiltro.controls["txtseccional"].enable();
+        this.fFiltro.controls["txtmunicipio"].disable();
+        this.fFiltro.controls["txtmunicipio"].setValue('');
+        break;
+      case "M":
+        this.fFiltro.controls["txtseccional"].enable();
+        this.fFiltro.controls["txtmunicipio"].enable();
+        break;
+      default:
+        break;
+    }
+  }
+
 
   /**
-   * 
-   */
+ * Consultar secretaria
+ */
   public chSeccionalFiltro() {
-    const idDepartamento = this.fFiltro.controls['txtseccional'].value;
-    if (!idDepartamento) {
-      this.fFiltro.controls["txtmunicipio"].disable();
-      this.fFiltro.controls["txtmunicipio"].setValue('');
-      return;
-    }
-    this.fFiltro.controls["txtmunicipio"].enable();
-    this.fFiltro.controls["txtmunicipio"].setValue('');
-    this.fnGetSecretariaFiltro(idDepartamento);
+    let idDepartamento: string = "";
+    const idSeccional = this.fFiltro.controls['txtseccional'].value;
+    this.lSeccional$.pipe(map(lseccional => lseccional.filter((seccional: any) => seccional.idSeccional === parseInt(idSeccional))), take(1))
+      .subscribe({
+        next: (val) => {
+          if (val?.length == 1) {
+            idDepartamento = val[0].idDepartamento || "";
+            if (idDepartamento) {
+              this.fnGetSecretariaFiltro(idDepartamento);
+            }
+          }
+        }
+      })
   }
 
 
