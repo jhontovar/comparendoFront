@@ -2,8 +2,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary" style="background-color: #3366CC;">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">
-                <img src="https://www.policia.gov.co/sites/default/files/escudo-policia.png" alt="Bootstrap" width="30"
-                    height="24">
+                <img [src]="'assets/ditra.png'" alt="Bootstrap" width="30" height="24">
             </a>
             <a class="navbar-brand" href="#">GOV.CO</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
@@ -37,10 +36,6 @@
                             <li class="dropdown-submenu dropend"> <a class="dropdown-item" routerLink="registro/trasferencias">Transferencia Directa</a></li>
                         </ul>
                     </li>
-                    <!-- <li class="nav-item">
-                        <a class="nav-link active" routerLink="registro/trasferencias">Registro Transferencias</a>
-                    </li> -->
-
                 </ul>
             </div>
         </div>
@@ -92,7 +87,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="col">
+            <div class="col ms-2 me-2">
                 <div id="liveAlertPlaceholder"></div>
                 <router-outlet></router-outlet>
             </div>

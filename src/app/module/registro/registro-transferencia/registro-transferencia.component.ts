@@ -201,26 +201,52 @@ export class RegistroTransferenciaComponent implements OnInit {
   }
   onInputBlur(): void {
     // Formatea el valor cuando el usuario se sale del campo de entrada
-
     const numericValue = parseFloat(this.removeDots(this.fControl.controls['txtvalor'].value)) | 0;
-
     this.fControl.controls['txtvalor'].setValue(this.formatNumberWithCurrency(numericValue));
     // Formatea el valor cuando el usuario se sale del campo de entrada
-
   }
   removeDots(str: string): string {
     return str.replace(/\./g, '');
   }
 
   //#region Grid
+  private fnCurrencyFormatter(currency: number, sign: string) {
+    if (!currency) {
+      return "";
+    }
+    var sansDec = currency.toFixed(0);
+    var formatted = sansDec.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return sign + `${formatted}`;
+  }
+
+  private fnDateFormatter(date: string) {
+    if (!date) {
+      return "";
+    }
+    return formatDate(date, 'dd/MM/yyyy', 'en');
+  }
 
   public columnDefs: ColDef[] = [
     { field: 'secretaria.descripcion', headerName: 'Secretaria' },
     { field: 'idTransferencia', headerName: 'Id Transferencia', hide: true },
-    { field: 'fechaTransferencia', headerName: 'Fecha Transferencia', type: ['dateColumn', 'nonEditableColumn'] },
-    { field: 'fechaPeriodoInicio', headerName: 'Fecha Inicio', type: ['dateColumn', 'nonEditableColumn'] },
-    { field: 'fechaPeriodoFin', headerName: 'Fecha Fin', type: ['dateColumn', 'nonEditableColumn'] },
-    { field: 'vrTransferido', headerName: 'Valor', type: 'numberColumn' },
+    {
+      field: 'fechaTransferencia', headerName: 'Fecha Transferencia', type: ['dateColumn', 'nonEditableColumn'],
+      valueFormatter: params => this.fnDateFormatter(params.data.fechaTransferencia)
+    },
+    {
+      field: 'fechaPeriodoInicio', headerName: 'Fecha Inicio', type: ['dateColumn', 'nonEditableColumn'],
+      valueFormatter: params => this.fnDateFormatter(params.data.fechaPeriodoInicio)
+    },
+    {
+      field: 'fechaPeriodoFin', headerName: 'Fecha Fin', type: ['dateColumn', 'nonEditableColumn'],
+      valueFormatter: params => this.fnDateFormatter(params.data.fechaPeriodoFin)
+    },
+    {
+      field: 'vrTransferido', headerName: 'Valor', type: 'numberColumn',
+      valueGetter: (row) => {
+        return this.fnCurrencyFormatter(row.data?.vrTransferido, '$')
+      }
+    },
   ];
 
   public gridOptions: GridOptions = {};

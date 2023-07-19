@@ -1,5 +1,5 @@
+declare var window: any
 export const environment = {
   production: true,
-
-  apiDitra: location.protocol + '//asw4658:8081'
+  apiDitra: window._System_.configAppJson.apiUrl
 };

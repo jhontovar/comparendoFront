@@ -9,6 +9,7 @@ import { LayoutComponent } from './layout/layout/layout.component';
 import { HttpAuthorizationService } from './core/interceptor/http-authorization.service';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
+import { HomeComponent } from './layout/home/home.component';
 
 
 export const httpInterceptors = [
@@ -19,8 +20,8 @@ export const httpInterceptors = [
 @NgModule({
   declarations: [
     AppComponent,
-    LayoutComponent
-    
+    LayoutComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
