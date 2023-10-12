@@ -13,6 +13,7 @@ export class HttpAuthorizationService implements HttpInterceptor {
     return next.handle(authReq).pipe(
       tap({
         next: (event: HttpEvent<any>) => {
+          this.alertCustomService.clearAlert();
           if (event instanceof HttpResponse) {
             // This is intentional
           }

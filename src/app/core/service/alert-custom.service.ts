@@ -31,4 +31,17 @@ export class AlertCustomService {
     }
   }
 
+  /**
+   * 
+   */
+  public clearAlert(){
+    try {
+      const alertPlaceholder = document.getElementById('liveAlertPlaceholder');
+      alertPlaceholder?.replaceChildren();
+    } catch (error) {
+      
+    }
+    
+  }
+
 }
