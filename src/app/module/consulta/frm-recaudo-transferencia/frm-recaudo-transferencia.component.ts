@@ -153,6 +153,7 @@ export class FrmRecaudoTransferenciaComponent implements OnInit {
     let lRecaudo: Array<RespuestaRecaudo> = [];
     reponse?.forEach((element: RespuestaRecaudo) => {
       lRecaudo.push({
+        referencia:element.referencia,
         comparendo: element.comparendo.nroComparendo,
         resolucion: element.resolucion.nroResolucion,
         txtDepartamento: element.secretaria?.departamento?.descripcion,
@@ -176,7 +177,7 @@ export class FrmRecaudoTransferenciaComponent implements OnInit {
       })
     });
 
-    let lHeader = ['Número de comparendo', 'Número de resolucion', 'Departamento', 'Secretaria', 'Número de documento infractor',
+    let lHeader = ['Referencia', 'Número de comparendo', 'Número de resolucion', 'Departamento', 'Secretaria', 'Número de documento infractor',
       'Tipo de infracción', 'Cantidad de SMDLV', 'Total pagado ', 'Porcentaje SIMIT',
       'Valor SIMIT', 'Porcentaje DITRA', 'Valor DITRA', 'Porcentaje municipio', 'Valor municipio',
       'Fecha contable', 'Tipo de recaudo', 'Porcentaje de descuento', 'Valor de descuento'
@@ -208,6 +209,7 @@ export class FrmRecaudoTransferenciaComponent implements OnInit {
 
   public columnDefs: ColDef[] = [
     { field: 'idRecaudo', headerName: 'Id Recaudo', hide: true },
+    { field: 'referencia', headerName: 'Referencia' },
     { field: 'comparendo.nroComparendo', headerName: 'Nro Comparendo' },
     { field: 'resolucion.nroResolucion', headerName: 'Nro Resolucion' },
     { field: 'secretaria.departamento.descripcion', headerName: 'Departamento' },
