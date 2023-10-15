@@ -151,7 +151,6 @@ export class FrmCaducidadesComponent implements OnInit {
     if (reponse?.EsExitoso) {
       this.bResult = true;
       this.gridOptions.api?.setRowData(reponse.Resultado);
-      this.gridOptions.api?.sizeColumnsToFit();
     } else {
       this.objToast = {
         method: "danger",
@@ -307,7 +306,7 @@ export class FrmCaducidadesComponent implements OnInit {
       field: 'cartera.totalCartera', headerName: 'Valor', type: 'numberColumn',
       valueGetter: (row) => {
         let valor = row.data?.cartera?.totalCartera || row.data?.comparendo?.vrComp;
-        return this.fnCurrencyFormatter(valor, '$')
+        return this.fnCurrencyFormatter(valor, '')
       }
     },
   ];

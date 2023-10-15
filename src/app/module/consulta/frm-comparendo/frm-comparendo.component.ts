@@ -289,12 +289,12 @@ export class FrmComparendoComponent implements OnInit {
 
   columnDefsRecaudo: ColDef[] = [
     { field: 'tipoRec.descripcion' },
-    { field: 'vrDescuento', valueFormatter: params => this.fnCurrencyFormatter(params.data.vrDescuento, '$'), },
+    { field: 'vrDescuento', valueFormatter: params => this.fnCurrencyFormatter(params.data.vrDescuento, ''), },
     { field: 'porcentajeDescuento' },
-    { field: 'vrPagado', valueFormatter: params => this.fnCurrencyFormatter(params.data.vrPagado, '$'), },
+    { field: 'vrPagado', valueFormatter: params => this.fnCurrencyFormatter(params.data.vrPagado, ''), },
     { field: 'transferido' },
     { field: 'fechaTransferencia', valueFormatter: this.fnDateFormatter },
-    { field: 'vrTransferido', valueFormatter: params => this.fnCurrencyFormatter(params.data.vrTransferido, '$'), }
+    { field: 'vrTransferido', valueFormatter: params => this.fnCurrencyFormatter(params.data.vrTransferido, ''), }
   ];
 
   gridOptionsResolucion: any;

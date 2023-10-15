@@ -114,7 +114,7 @@ export class FrmRecaudoTransferenciaComponent implements OnInit {
     if (reponse.EsExitoso) {
       this.bResult = true;
       this.gridOptions.api?.setRowData(reponse.Resultado);
-      this.gridOptions.api?.sizeColumnsToFit();
+      //this.gridOptions.api?.sizeColumnsToFit();
     } else {
       this.objToast = {
         method: "danger",
@@ -232,22 +232,22 @@ export class FrmRecaudoTransferenciaComponent implements OnInit {
     },
     {
       field: 'vrPagado', headerName: 'Total pagado', type: 'numberColumn',
-      valueFormatter: params => this.fnCurrencyFormatter(params.data.vrPagado, '$'),
+      valueFormatter: params => this.fnCurrencyFormatter(params.data.vrPagado, ''),
     },
     { field: 'porcentajeSimit', headerName: 'Porcentaje SIMIT' },
     {
       field: 'vrSimit', headerName: 'Valor SIMIT', type: 'numberColumn',
-      valueFormatter: params => this.fnCurrencyFormatter(params.data.vrSimit, '$'),
+      valueFormatter: params => this.fnCurrencyFormatter(params.data.vrSimit, ''),
     },
     { field: 'porcentajeDitra', headerName: 'Porcentaje DITRA' },
     {
       field: 'vrDitra', headerName: 'Valor DITRA', type: 'numberColumn',
-      valueFormatter: params => this.fnCurrencyFormatter(params.data.vrDitra, '$'),
+      valueFormatter: params => this.fnCurrencyFormatter(params.data.vrDitra, ''),
     },
     { field: 'porcentajeMunicipio', headerName: 'Porcentaje municipio' },
     {
       field: 'vrMunicipio', headerName: 'Valor municipio', type: 'numberColumn',
-      valueFormatter: params => this.fnCurrencyFormatter(params.data.vrMunicipio, '$'),
+      valueFormatter: params => this.fnCurrencyFormatter(params.data.vrMunicipio, ''),
     },
     {
       field: 'fechaRecaudo', headerName: 'Fecha contable',
@@ -257,7 +257,7 @@ export class FrmRecaudoTransferenciaComponent implements OnInit {
     { field: 'porcentajeDescuento', headerName: 'Porcentaje Descuento' },
     {
       field: 'vrDescuento', headerName: 'Valor Descuento', type: 'numberColumn',
-      valueFormatter: params => this.fnCurrencyFormatter(params.data.vrDescuento, '$'),
+      valueFormatter: params => this.fnCurrencyFormatter(params.data.vrDescuento, ''),
     },
     { field: 'nroRadicado', headerName: 'Nro Radicado' },
     {
