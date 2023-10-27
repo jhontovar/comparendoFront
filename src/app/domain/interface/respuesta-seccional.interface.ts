@@ -63,4 +63,12 @@ export interface RespuestaRecaudo {
     txtTipoInfraccion?:string
     txtVrDiarioDesde?:string
     txtTipoRecaudo?:string
+
+    nroResolucion?:string
+    descripcionDepartamento?:string
+    descripcionSecretaria?:string
+    documento?:string
+    codigoInfraccion?:string
+    vrDiarioDesde?:string
+    descripcionTipoRecaudo?:string
 }

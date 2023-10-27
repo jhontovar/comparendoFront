@@ -22,6 +22,7 @@ export class FrmRecaudoTransferenciaComponent implements OnInit {
   public descargaExitosa: boolean = false;
   public CONSTANT = DITRA;
   public bResult: boolean = false;
+  public lConsulta :Array<any>=[];
 
   constructor(private fb: FormBuilder, private excelService: ExcelService,
     private recaudoTransferenciaStateService: RecaudoTransferenciaStateService) {
@@ -34,6 +35,7 @@ export class FrmRecaudoTransferenciaComponent implements OnInit {
       txtmunicipio: [{ value: '', disabled: true }, [Validators.required]],
       txttipo: ["N"],
       txttransferido: ['A'],
+      txttiporecaudo: ['E'],
       txtfechainicial: [formatDate(firstDay, 'yyyy-MM-dd', 'en'), [Validators.required]],
       txtfechafinal: [formatDate(date, 'yyyy-MM-dd', 'en'), [Validators.required]],
       options: new FormArray([])
@@ -104,6 +106,7 @@ export class FrmRecaudoTransferenciaComponent implements OnInit {
     this.bResult = false;
     let model = {
       "tipoConsulta": this.fControl.controls['txttipo'].value,
+      "tipoRecaudo": this.fControl.controls['txttiporecaudo'].value,
       "fechaInicial": this.fControl.controls['txtfechainicial'].value,
       "fechaFinal": this.fControl.controls['txtfechafinal'].value,
       "transferido": this.fControl.controls['txttransferido'].value,
@@ -113,6 +116,7 @@ export class FrmRecaudoTransferenciaComponent implements OnInit {
     let reponse = await this.recaudoTransferenciaStateService.ConsultarRecaudo(model);
     if (reponse.EsExitoso) {
       this.bResult = true;
+      this.lConsulta = reponse.Resultado;
       this.gridOptions.api?.setRowData(reponse.Resultado);
       //this.gridOptions.api?.sizeColumnsToFit();
     } else {
@@ -120,6 +124,7 @@ export class FrmRecaudoTransferenciaComponent implements OnInit {
         method: "danger",
         message: DITRA.MENSAJES.NO_INFORMACION
       }
+      this.lConsulta =[];
     }
   }
 
@@ -127,22 +132,15 @@ export class FrmRecaudoTransferenciaComponent implements OnInit {
    * Descargar
    */
   async btnDescargar() {
-    let model = {
-      "tipoConsulta": this.fControl.controls['txttipo'].value,
-      "fechaInicial": this.fControl.controls['txtfechainicial'].value,
-      "fechaFinal": this.fControl.controls['txtfechafinal'].value,
-      "transferido": this.fControl.controls['txttransferido'].value,
-      "seccional": this.fControl.controls['txtseccional'].value || 0,
-      "secretaria": this.fControl.controls['txtmunicipio'].value || 0
+    if(this.lConsulta.length){
+      this.btnExcel(this.lConsulta);
     }
-    let reponse = await this.recaudoTransferenciaStateService.ConsultarRecaudo(model);
-    if (reponse.EsExitoso) {
-      this.btnExcel(reponse.Resultado);
-    } else {
+    else{
       this.objToast = {
         method: "danger",
         message: DITRA.MENSAJES.NO_INFORMACION
       }
+      return;
     }
   }
 
@@ -153,14 +151,14 @@ export class FrmRecaudoTransferenciaComponent implements OnInit {
     let lRecaudo: Array<RespuestaRecaudo> = [];
     reponse?.forEach((element: RespuestaRecaudo) => {
       lRecaudo.push({
-        referencia:element.referencia,
-        comparendo: element.comparendo.nroComparendo,
-        resolucion: element.resolucion.nroResolucion,
-        txtDepartamento: element.secretaria?.departamento?.descripcion,
-        txtMunicipio: element.secretaria?.descripcion,
-        txtDocumento: element.comparendo?.documento?.documento || element.resolucion?.documento?.documento,
-        txtTipoInfraccion: element.comparendo?.infraccion?.codigoInfraccion || element.resolucion?.infraccion?.codigoInfraccion,
-        txtVrDiarioDesde: element.comparendo?.infraccion?.vrDiarioDesde || element.resolucion?.infraccion?.vrDiarioDesde,
+        referencia: element.referencia,
+        comparendo: element.nroComparendo,
+        resolucion: element.nroResolucion,
+        txtDepartamento: element.descripcionDepartamento,
+        txtMunicipio: element.descripcionSecretaria,
+        txtDocumento: element.documento,
+        txtTipoInfraccion: element.codigoInfraccion,
+        txtVrDiarioDesde: element.vrDiarioDesde,
         vrPagado: element.vrPagado,
         porcentajeSimit: element.porcentajeSimit,
         vrSimit: element.vrSimit,
@@ -169,7 +167,7 @@ export class FrmRecaudoTransferenciaComponent implements OnInit {
         porcentajeMunicipio: element.porcentajeMunicipio,
         vrMunicipio: element.vrMunicipio,
         fechaRecaudo: element.fechaRecaudo,
-        txtTipoRecaudo: element.tipoRec.descripcion,
+        txtTipoRecaudo: element.descripcionTipoRecaudo,
         porcentajeDescuento: element.porcentajeDescuento,
         vrDescuento: element.vrDescuento,
         nroRadicado: element.nroRadicado,
@@ -210,27 +208,17 @@ export class FrmRecaudoTransferenciaComponent implements OnInit {
   public columnDefs: ColDef[] = [
     { field: 'idRecaudo', headerName: 'Id Recaudo', hide: true },
     { field: 'referencia', headerName: 'Referencia' },
-    { field: 'comparendo.nroComparendo', headerName: 'Nro Comparendo' },
-    { field: 'resolucion.nroResolucion', headerName: 'Nro Resolucion' },
-    { field: 'secretaria.departamento.descripcion', headerName: 'Departamento' },
-    { field: 'secretaria.descripcion', headerName: 'Secretaria' },
-    {
-      field: 'documento', headerName: 'Nro Documento',
-      valueGetter: (row) => {
-        return row.data?.comparendo?.documento?.documento || row.data?.resolucion?.documento?.documento
-      }
-    },
+    { field: 'nroComparendo', headerName: 'Nro Comparendo' },
+    { field: 'nroResolucion', headerName: 'Nro Resolucion' },
+    { field: 'descripcionDepartamento', headerName: 'Departamento' },
+    { field: 'descripcionSecretaria', headerName: 'Secretaria' },
+    { field: 'documento', headerName: 'Nro Documento' },
     {
       field: 'codigoInfraccion', headerName: 'Código Infracción',
-      valueGetter: (row) => {
-        return row.data?.comparendo?.infraccion?.codigoInfraccion || row.data?.resolucion?.infraccion?.codigoInfraccion
-      }
     },
     {
-      field: 'comparendo.infraccion.vrDiarioDesde', headerName: 'Cantidad SMDLV', type: 'numberColumn',
-      valueGetter: (row) => {
-        return row.data?.comparendo?.infraccion?.vrDiarioDesde || row.data?.resolucion?.infraccion?.vrDiarioDesde
-      }
+      field: 'vrDiarioDesde', headerName: 'Cantidad SMDLV', type: 'numberColumn',
+      valueFormatter: params => this.fnCurrencyFormatter(params.data.vrDiarioDesde, ''),
     },
     {
       field: 'vrPagado', headerName: 'Total pagado', type: 'numberColumn',
@@ -255,7 +243,7 @@ export class FrmRecaudoTransferenciaComponent implements OnInit {
       field: 'fechaRecaudo', headerName: 'Fecha contable',
       valueFormatter: params => this.fnDateFormatter(params.data.fechaRecaudo),
     },
-    { field: 'tipoRec.descripcion', headerName: 'Tipo de Recaudo' },
+    { field: 'descripcionTipoRecaudo', headerName: 'Tipo de Recaudo' },
     { field: 'porcentajeDescuento', headerName: 'Porcentaje Descuento' },
     {
       field: 'vrDescuento', headerName: 'Valor Descuento', type: 'numberColumn',
@@ -266,6 +254,7 @@ export class FrmRecaudoTransferenciaComponent implements OnInit {
       field: 'fechaRadicado', headerName: 'Fecha Radicado',
       valueFormatter: params => this.fnDateFormatter(params.data.fechaRadicado),
     },
+    { field: 'procedencia', headerName: 'Procedencia', hide:true },
   ];
 
   public gridOptions: GridOptions = {};
