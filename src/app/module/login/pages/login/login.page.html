@@ -22,15 +22,49 @@
               formControlName="username"
               class="form-control rounded border-0 bg-light p-3"
               placeholder="Usuario"
+              [ngClass]="{
+                'is-invalid': isInvalidControl(loginForm.controls.username)
+              }"
+              autocomplete="username"
             />
+
+            <div
+              *ngIf="isInvalidControl(loginForm.controls.username)"
+              class="invalid-feedback"
+            >
+              <div *ngIf="loginForm.controls.username.errors?.['required']">
+                El usuario es requerido
+              </div>
+
+              <div *ngIf="loginForm.controls.username.errors?.['maxlength']">
+                El usuario no puede tener más de 100 caracteres
+              </div>
+            </div>
           </div>
-          <div class="form-group d-flex mb-3">
+          <div class="form-group mb-3">
             <input
               type="password"
               formControlName="password"
               class="form-control rounded border-0 bg-light p-3"
               placeholder="Contraseña"
+              [ngClass]="{
+                'is-invalid': isInvalidControl(loginForm.controls.password)
+              }"
+              autocomplete="current-password"
             />
+
+            <div
+              *ngIf="isInvalidControl(loginForm.controls.password)"
+              class="invalid-feedback"
+            >
+              <div *ngIf="loginForm.controls.password.errors?.['required']">
+                La contraseña es requerida
+              </div>
+
+              <div *ngIf="loginForm.controls.password.errors?.['maxlength']">
+                La contraseña no puede tener más de 100 caracteres
+              </div>
+            </div>
           </div>
           <button
             type="submit"

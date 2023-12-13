@@ -29,7 +29,9 @@ export class HttpAuthorizationService implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler) {
     let authReq = req;
 
-    if (this.sessionService.hasSession) {
+    const hasSession = this.sessionService.hasSession;
+
+    if (hasSession) {
       const token = this.sessionService.token;
       authReq = req.clone({
         headers: req.headers.set('Authorization', `Bearer ${token}`),
@@ -37,18 +39,26 @@ export class HttpAuthorizationService implements HttpInterceptor {
     }
 
     return next.handle(authReq).pipe(
-      catchError((error) => {
-        if (error.status === 401) {
-          this.alertCustomService.showAlert('Su sesión ha expirado.', 'danger');
+      tap({
+        error: (err) => {
+          if (err instanceof HttpResponse) {
+            if (err.status === 401) {
+              if (hasSession) {
+                this.alertCustomService.showAlert(
+                  'Su sesión ha expirado.',
+                  'danger'
+                );
 
-          this.sessionService.close();
-        } else {
-          this.alertCustomService.showAlert(
-            'Error al realizar la petición. Por favor, intente nuevamente.',
-            'danger'
-          );
-        }
-        return EMPTY;
+                this.sessionService.close();
+              }
+            } else {
+              this.alertCustomService.showAlert(
+                'Error al realizar la petición. Por favor, intente nuevamente.',
+                'danger'
+              );
+            }
+          }
+        },
       })
     );
   }

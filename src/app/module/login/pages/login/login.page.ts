@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { SecurityService } from '../../services/security.service';
 import { SessionService } from 'src/app/core/service/session.service';
 import { AlertCustomService } from 'src/app/core/service/alert-custom.service';
@@ -25,6 +25,11 @@ export class LoginPage {
    * Indicates whether the login is loading.
    */
   public loading = false;
+
+  /**
+   * Indicates whether the login form has been submitted.
+   */
+  public submitted = false;
 
   /**
    * Initializes a new instance of the LoginPage class.
@@ -53,6 +58,8 @@ export class LoginPage {
    * If the login is successful, the session is initialized.
    */
   login() {
+    this.submitted = true;
+
     if (this.loginForm.invalid) {
       this.alertCustomService.showAlert(
         'Por favor, ingrese un usuario y contraseña.',
@@ -85,5 +92,9 @@ export class LoginPage {
           );
         }
       });
+  }
+
+  isInvalidControl(control: AbstractControl): boolean {
+    return control.invalid && (control.dirty || control.touched);
   }
 }
