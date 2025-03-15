@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 import * as pdfMake from "pdfmake/build/pdfmake";
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 import { PDF } from '../model/pdf';
-(<any>pdfMake).vfs = pdfFonts.pdfMake.vfs;
+(<any>pdfMake).vfs = pdfFonts.vfs;
 
 @Injectable({
   providedIn: 'root'

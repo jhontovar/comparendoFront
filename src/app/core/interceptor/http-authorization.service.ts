@@ -1,12 +1,11 @@
 import {
-  HttpEvent,
   HttpHandler,
   HttpInterceptor,
   HttpRequest,
-  HttpResponse,
+  HttpErrorResponse,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { EMPTY, catchError, tap } from 'rxjs';
+import { tap } from 'rxjs';
 import { AlertCustomService } from '../service/alert-custom.service';
 import { SessionService } from '../service/session.service';
 
@@ -38,19 +37,33 @@ export class HttpAuthorizationService implements HttpInterceptor {
       });
     }
 
+    const csrfToken = this.sessionService.csrfToken;
+
+    if (csrfToken) {
+      authReq = authReq.clone({
+        headers: authReq.headers.set('X-CSRF-TOKEN', csrfToken),
+      });
+    }
+
     return next.handle(authReq).pipe(
       tap({
         error: (err) => {
-          if (err instanceof HttpResponse) {
+          if (err instanceof HttpErrorResponse) {
+            console.log(err);
             if (err.status === 401) {
               if (hasSession) {
                 this.alertCustomService.showAlert(
                   'Su sesión ha expirado.',
                   'danger'
                 );
-
-                this.sessionService.close();
+              } else {
+                this.alertCustomService.showAlert(
+                  'No tiene permisos para realizar esta acción.',
+                  'danger'
+                );
               }
+
+              this.sessionService.close();
             } else {
               this.alertCustomService.showAlert(
                 'Error al realizar la petición. Por favor, intente nuevamente.',

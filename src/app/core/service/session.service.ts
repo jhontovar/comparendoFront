@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { SessionModel } from '../model/session.model';
+import { CookieService } from 'ngx-cookie-service';
 
 /**
  * Service to manage the session of the user.
@@ -15,11 +16,16 @@ export class SessionService {
   private readonly tokenKey = 'auth-token';
 
   /**
+   * Constant of the key to store the CSRF token in the cookie.
+   */
+  private readonly xCsrfTokenCookie = 'X-CSRF-TOKEN';
+
+  /**
    * Constructor of the class.
    *
    * @param router The router to navigate to other pages.
    */
-  constructor(private router: Router) {}
+  constructor(private router: Router, private cookieService: CookieService) {}
 
   /**
    * Check if there is a session.
@@ -44,6 +50,15 @@ export class SessionService {
     }
 
     return token;
+  }
+
+  /**
+   * Get the CSRF token from the current session.
+   *
+   * @returns The CSRF token.
+   */
+  public get csrfToken(): string {
+    return this.cookieService.get(this.xCsrfTokenCookie);
   }
 
   /**
@@ -76,6 +91,7 @@ export class SessionService {
    */
   public close(): void {
     localStorage.removeItem(this.tokenKey);
+    this.cookieService.delete(this.xCsrfTokenCookie);
 
     this.goToLogin();
   }

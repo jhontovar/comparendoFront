@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --disable-host-check",
     "build": "ng build --configuration production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
@@ -27,6 +27,7 @@
     "bootstrap": "^5.2.3",
     "file-saver": "^2.0.5",
     "jquery": "^3.7.0",
+    "ngx-cookie-service": "^17.1.0",
     "pdfmake": "^0.2.18",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",

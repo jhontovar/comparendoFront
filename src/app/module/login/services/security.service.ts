@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, catchError, map, of } from 'rxjs';
+import { Observable, catchError, map, mergeMap, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { LoginResponseModel } from '../interfaces/login.response.model';
 
@@ -48,11 +48,20 @@ export class SecurityService {
         }
       )
       .pipe(
-        map((response) => {
-          return {
-            success: true,
-            token: response,
-          };
+        mergeMap((token) => {
+          return this.httpClient
+            .get(`${environment.apiDitra}/api/AntiForgery`, {
+              observe: 'response',
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            })
+            .pipe(
+              map(() => ({
+                success: true,
+                token: token,
+              }))
+            );
         }),
         catchError((error) => {
           console.log('An error occurred while logging in.', error);
